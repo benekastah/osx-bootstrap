@@ -1,0 +1,9 @@
+
+git
+vim --with-lua --with-mzscheme --with-client-server
+tmux
+wget
+node --enable-debug
+ag
+ctags
+
