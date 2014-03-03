@@ -2,6 +2,11 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+" Clear filetype flags before changing runtimepath to force Vim to reload them.
+filetype off
+filetype plugin indent off
+set runtimepath+=$GOROOT/misc/vim
+
 " ================ General Config ====================
 
 set number                      "Line numbers are good
@@ -125,6 +130,12 @@ call Statusline()
 
 " ================ Tern ========================
 let tern#command = ['tern', '--no-port-file']
+
+" D
+let g:syntastic_d_compiler = "$HOME/bin/dub-syntastic"
+" let g:syntastic_d_dmd_exec = "dub"
+" let g:syntastic_d_dmd_args = "build --quiet"
+
 
 " Utility functions
 function! GetVisualSelection()

@@ -5,3 +5,5 @@
 [user]
 	name = Paul Harper
 	email = paul@chartio.com
+[core]
+	editor = /usr/local/bin/vim

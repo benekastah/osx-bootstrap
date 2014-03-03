@@ -73,6 +73,12 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # I like vim
 export EDITOR=vim
+export VISUAL=
+
+# Go
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
+export GOROOT="/usr/local/Cellar/go/1.2/libexec"
 
 # Vim keybindings
 bindkey -v
@@ -93,3 +99,7 @@ alias handlebars-watch="watchmedo shell-command \
     --patterns=\"*.handlebars\" --recursive \
     --command=\"fab vagrant handlebars:/srv/sqlcharts\""
 
+HOSTZSHRC="$HOME/.$HOST.zsh"
+if [ -e "$HOSTZSHRC" ]; then
+    source "$HOSTZSHRC"
+fi
