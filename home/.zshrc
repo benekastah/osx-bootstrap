@@ -81,6 +81,12 @@ export PATH="$HOME/local/bin:$PATH"
 
 # I like vim
 export EDITOR=vim
+export VISUAL=
+
+# Go
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
+export GOROOT="/usr/local/Cellar/go/1.2/libexec"
 
 # Vim keybindings
 bindkey -v
@@ -102,3 +108,13 @@ alias handlebars-watch="watchmedo shell-command \
     --command=\"fab vagrant handlebars:/srv/sqlcharts\""
 
 alias mutt="(cd ~/Downloads; \mutt)"
+
+alias irssi="tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
+    tmux swap-pane -D && tmux resize-pane -x 10 && \
+    tmux select-pane -R && \
+    \irssi"
+
+HOSTZSHRC="$HOME/.$HOST.zsh"
+if [ -e "$HOSTZSHRC" ]; then
+    source "$HOSTZSHRC"
+fi

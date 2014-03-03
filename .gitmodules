@@ -1,0 +1,9 @@
+[submodule "home/.irssi/irssi-colors-solarized"]
+	path = home/.irssi/irssi-colors-solarized
+	url = https://github.com/huyz/irssi-colors-solarized.git
+[submodule "home/.irssi/scripts/irssi-notifier"]
+	path = home/.irssi/scripts/irssi-notifier
+	url = https://github.com/paddykontschak/irssi-notifier.git
+[submodule "home/.irssi/modules/xmpp"]
+	path = home/.irssi/modules/xmpp
+	url = http://cybione.org/git/irssi-xmpp.git

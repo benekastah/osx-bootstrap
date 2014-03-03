@@ -13,3 +13,5 @@
     tool = vimdiff
 [mergetool]
     prompt = false
+[core]
+	editor = "/usr/bin/env vim"

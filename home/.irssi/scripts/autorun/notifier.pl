@@ -1,0 +1,1 @@
+/Users/benekastah/.homesick/repos/osx-bootstrap/home/.irssi/scripts/irssi-notifier/notifier.pl
