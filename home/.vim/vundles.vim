@@ -100,6 +100,7 @@ Bundle "skwp/vim-colors-solarized"
 " Bundle "xsunsmile/showmarks.git"
 " Bundle "vim-scripts/AnsiEsc.vim.git"
 " Bundle "hynek/vim-python-pep8-indent"
+Bundle "python_match.vim"
 Bundle "bkad/CamelCaseMotion"
 Bundle "majutsushi/tagbar"
 

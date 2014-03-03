@@ -53,8 +53,16 @@ source $ZSH/oh-my-zsh.sh
 
 setopt histignorespace
 
+# Check if the shell we are using is spawned from vim
+if [ -n "$VIMRUNTIME" ]; then
+    export RPROMPT="$RPROMPT"'$FG[238]vim%{$reset_color%}'
+fi
+
 # Ensure homebrew installs take precedence over system installs
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+# I like to have a ~/local/bin too
+export PATH="$HOME/local/bin:$PATH"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -93,3 +101,4 @@ alias handlebars-watch="watchmedo shell-command \
     --patterns=\"*.handlebars\" --recursive \
     --command=\"fab vagrant handlebars:/srv/sqlcharts\""
 
+alias mutt="(cd ~/Downloads; \mutt)"

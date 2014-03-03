@@ -3,7 +3,23 @@ git
 vim --with-lua --with-mzscheme --with-client-server
 tmux
 wget
-node --enable-debug
 ag
 ctags
+irssi
+terminal-notifier
+mutt --with-confirm-attachment-patch --with-trash-patch
+curl
 
+# GNU
+coreutils
+gnu-sed
+gpg
+
+# For neovim
+md5sha1sum
+cmake
+libtool
+
+# Languages
+node --enable-debug
+go
