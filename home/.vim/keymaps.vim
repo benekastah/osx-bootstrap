@@ -8,19 +8,22 @@ function! Wincmd(cmd)
 
     exe ":wincmd ".a:cmd
 
-    if !&previewwindow
-        if a:cmd ==# '-' || a:cmd ==# '+'
-            let t:winmax = 0
-            let w:winmax = 0
-            return
-        endif
+    if &previewwindow || &buftype ==# 'quickfix'
+        resize 10
+        return
+    endif
 
-        let w:wineq = exists('w:wineq') && w:wineq
-        if ((exists('t:winmax') && t:winmax) || (exists('w:winmax') && w:winmax)) && !w:wineq
-            :wincmd _
-        elseif l:prev_winmax || w:wineq
-            :wincmd =
-        endif
+    if a:cmd ==# '-' || a:cmd ==# '+'
+        let t:winmax = 0
+        let w:winmax = 0
+        return
+    endif
+
+    let w:wineq = exists('w:wineq') && w:wineq
+    if ((exists('t:winmax') && t:winmax) || (exists('w:winmax') && w:winmax)) && !w:wineq
+        :wincmd _
+    elseif l:prev_winmax || w:wineq
+        :wincmd =
     endif
 endfunction
 
@@ -50,3 +53,10 @@ nmap <F8> :TagbarToggle<CR>
 " OSX Clipboard
 map <leader>y "*y:call system("pbcopy", @*)<CR>
 nmap <leader>p :let @* = substitute(system("pbpaste"), "\n\$", "", "")<CR>"*p
+
+" Merge helpers
+" Find the next merge section
+nmap <leader>ml :exe "/<<<<<<<\\\|=======\\\|>>>>>>>"<CR>
+nmap <leader>mh :exe "?<<<<<<<\\\|=======\\\|>>>>>>>"<CR>
+
+vmap ff :<C-u>exe ':Ag -Q '''.substitute(GetVisualSelection(), "'", "''", "")."'"<CR>

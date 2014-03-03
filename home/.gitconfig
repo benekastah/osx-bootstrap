@@ -1,9 +1,17 @@
 [alias]
     br = !git checkout master && git pull && git checkout -b "$1"
 [push]
-	default = simple
+    default = simple
 [user]
-	name = Paul Harper
-	email = paul@chartio.com
+    name = Paul Harper
+    email = paul@chartio.com
 [core]
-	editor = /usr/local/bin/vim
+    editor = /usr/local/bin/vim
+[diff]
+    tool = vimdiff
+[difftool]
+    prompt = false
+[merge]
+    tool = vimdiff
+[mergetool]
+    prompt = false

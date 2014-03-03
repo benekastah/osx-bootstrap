@@ -12,6 +12,8 @@ set runtimepath+=$GOROOT/misc/vim
 set number                      "Line numbers are good
 set relativenumber              "Relative line numbers are also good
 set colorcolumn=80              "Show me column 80, plz
+set textwidth=80
+set nowrap
 set backspace=indent,eol,start  "Allow backspace in insert mode
 set history=1000                "Store lots of :cmdline history
 set showcmd                     "Show incomplete cmds down the bottom
@@ -21,6 +23,7 @@ set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set ruler
 set smartcase
+set nrformats=octal,hex,alpha
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -147,6 +150,7 @@ function! GetVisualSelection()
     let lines[0] = lines[0][col1 - 1:]
     return join(lines, "\n")
 endfunction
+command! GetVisualSelection echo GetVisualSelection()
 
 if filereadable(expand("~/.vim/keymaps.vim"))
     source ~/.vim/keymaps.vim

@@ -1,0 +1,27 @@
+
+# The mailcap located here:
+#   http://www.spinnaker.de/mutt/mailcap
+# Has lots of things to copy if need be.
+
+# Images
+image/jpeg; open -f -a /Applications/Preview.app
+image/pjpeg; open -f -a /Applications/Preview.app
+image/png; open -f -a /Applications/Preview.app
+image/gif; open -f -a /Applications/Preview.app
+
+# PDF
+application/pdf; open -f -a /Applications/Preview.app
+
+# Compressed
+application/x-gtar; tar tvf %s; copiousoutput
+application/x-tar; tar tvf %s; copiousoutput
+application/x-tar-gz; tar tvfz %s; copiousoutput
+application/x-rar-compressed; rar v %s; copiousoutput
+application/x-zip-compressed; unzip -v %s; copiousoutput
+application/zip; unzip -v %s; copiousoutput
+
+# HTML
+text/html; lynx %s; nametemplate=%s.html
+# text/html; lynx -dump %s; nametemplate=%s.html; copiousoutput
+
+
