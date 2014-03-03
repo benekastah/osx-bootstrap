@@ -81,6 +81,12 @@ export PATH="$HOME/local/bin:$PATH"
 
 # I like vim
 export EDITOR=vim
+export VISUAL=
+
+# Go
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
+export GOROOT="/usr/local/Cellar/go/1.2/libexec"
 
 # Vim keybindings
 bindkey -v
@@ -96,9 +102,14 @@ alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --r
 # tmux
 alias tmux="TERM=screen-256color-bce tmux"
 
+alias mutt="(cd ~/Downloads; \mutt)"
+
 # Chartio
 alias handlebars-watch="watchmedo shell-command \
     --patterns=\"*.handlebars\" --recursive \
     --command=\"fab vagrant handlebars:/srv/sqlcharts\""
 
-alias mutt="(cd ~/Downloads; \mutt)"
+HOSTZSHRC="$HOME/.$HOST.zsh"
+if [ -e "$HOSTZSHRC" ]; then
+    source "$HOSTZSHRC"
+fi

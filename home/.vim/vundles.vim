@@ -64,6 +64,10 @@ Bundle "kchmck/vim-coffee-script"
 " Bundle "wavded/vim-stylus"
 Bundle "stephpy/vim-yaml"
 Bundle "mustache/vim-mustache-handlebars"
+Bundle "digitaltoad/vim-jade"
+
+" D
+Bundle "d.vim"
 
 " Git related...
 Bundle "gregsexton/gitv"

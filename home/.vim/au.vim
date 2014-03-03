@@ -17,4 +17,10 @@ augroup paulh
 
     autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal wrap | endif
 
+    " Diet templates
+    autocmd BufNewFile,BufRead,BufFilePost *.dt :set ft=jade
+
+    autocmd BufNewFile,BufRead,BufFilePost *.h,*.cpp :let b:syntastic_cpp_cflags='@g++_opts'
+
+    autocmd FileType go set makeprg="go install"
 augroup END
