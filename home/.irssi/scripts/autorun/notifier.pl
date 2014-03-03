@@ -1,0 +1,1 @@
+/Users/paul/.irssi/scripts/irssi-notifier/notifier.pl
