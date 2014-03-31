@@ -1,0 +1,10 @@
+#!/bin/bash
+
+mkdir -p home/.irssi/scripts/autorun
+
+rm home/.irssi/scripts/autorun/adv_windowlist.pl home/.irssi/scripts/autorun/notifier.pl
+ln -s "$PWD/home/.irssi/scripts/adv_windowlist.pl" home/.irssi/scripts/autorun/
+ln -s "$PWD/home/.irssi/scripts/irssi-notifier/notifier.pl" home/.irssi/scripts/autorun/
+
+rm home/.irssi/solarized-universal.theme
+ln -s "$PWD/home/.irssi/irssi-colors-solarized/solarized-universal.theme" home/.irssi/
