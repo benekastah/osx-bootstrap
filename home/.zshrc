@@ -105,8 +105,6 @@ alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --r
 # tmux
 alias tmux="TERM=screen-256color-bce tmux"
 
-alias mutt="(cd ~/Downloads; \mutt)"
-
 # Chartio
 alias handlebars-watch="watchmedo shell-command \
     --patterns=\"*.handlebars\" --recursive \
