@@ -5,10 +5,14 @@ tmux
 wget
 ag
 ctags
-irssi
 terminal-notifier
 mutt --with-confirm-attachment-patch --with-trash-patch
 curl
+cpanminus
+
+irssi
+# For xmpp on irssi
+loudmouth
 
 # GNU
 coreutils

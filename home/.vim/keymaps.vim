@@ -43,9 +43,10 @@ nmap wl :call Wincmd('l')<CR>
 nmap tl :tabn<CR>
 nmap th :tabp<CR>
 
-" Buffer navigation
-map <C-b>l :bn<CR>
-map <C-b>h :bp<CR>
+" Buffer navigatior
+map <C-l> :bn<CR>
+map <C-h> :bp<CR>
+map <C-j> :b#<CR>
 
 " Tagbar
 nmap <F8> :TagbarToggle<CR>

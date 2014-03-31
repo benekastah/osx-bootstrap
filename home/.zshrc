@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+ZSH_THEME="pharp"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -45,7 +45,10 @@ CASE_SENSITIVE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+plugins=(git tmux python pep8 pip brew fabric virtualenv-prompt)
+
+# tmux
+ZSH_TMUX_AUTOSTART=true
 
 source $ZSH/oh-my-zsh.sh
 
@@ -109,7 +112,17 @@ alias handlebars-watch="watchmedo shell-command \
     --patterns=\"*.handlebars\" --recursive \
     --command=\"fab vagrant handlebars:/srv/sqlcharts\""
 
+alias mutt="(cd ~/Downloads; \mutt)"
+
+alias irssi="tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
+    tmux swap-pane -D && tmux resize-pane -x 10 && \
+    tmux select-pane -R && \
+    \irssi"
+
+alias vagrant-ssh="(cd $HOME/devbox && vagrant ssh -- -L 3333:127.0.0.1:5432)"
+
 HOSTZSHRC="$HOME/.$HOST.zsh"
 if [ -e "$HOSTZSHRC" ]; then
     source "$HOSTZSHRC"
 fi
+

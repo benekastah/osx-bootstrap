@@ -49,6 +49,10 @@ function install-watchdog() {
     pip install watchdog -U
 }
 
+function install-vdbi-reqs() {
+    sudo cpanm DBI Plack JSON DBD::Pg
+}
+
 function install() {
     install-zsh
     install-oh-my-zsh

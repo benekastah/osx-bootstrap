@@ -45,6 +45,10 @@ Bundle 'lukerandall/haskellmode-vim'
 Bundle 'moll/vim-bbye'
 " Bundle 'jaxbot/brolink.vim'
 
+" SQL
+Bundle "mattn/vdbi-vim"
+    Bundle "mattn/webapi-vim"
+
 " Bundle "Raimondi/delimitMate"
 
 " Javascript
@@ -65,6 +69,7 @@ Bundle "kchmck/vim-coffee-script"
 Bundle "stephpy/vim-yaml"
 Bundle "mustache/vim-mustache-handlebars"
 Bundle "digitaltoad/vim-jade"
+Bundle "matchit.zip"
 
 " D
 Bundle "d.vim"

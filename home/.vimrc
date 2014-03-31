@@ -12,8 +12,6 @@ set runtimepath+=$GOROOT/misc/vim
 set number                      "Line numbers are good
 set relativenumber              "Relative line numbers are also good
 set colorcolumn=80              "Show me column 80, plz
-set textwidth=80
-set nowrap
 set backspace=indent,eol,start  "Allow backspace in insert mode
 set history=1000                "Store lots of :cmdline history
 set showcmd                     "Show incomplete cmds down the bottom
@@ -95,7 +93,7 @@ set nofoldenable        "dont fold by default
 
 set wildmode=list:longest
 set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
-set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore=*.o,*.so,*.dylib,*.obj,*~ "stuff to ignore when tab completing
 set wildignore+=*vim/backups*
 set wildignore+=*sass-cache*
 set wildignore+=*DS_Store*
@@ -105,6 +103,7 @@ set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*.pyc,*.pyo,*.pyd,*.egg-info/**,*.egg,develop-eggs/**,__pycache__/**,.Python
 
 " ================ scrolling ========================
 
