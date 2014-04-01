@@ -119,6 +119,11 @@ alias irssi="tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" &&
 
 alias vagrant-ssh="(cd $HOME/devbox && vagrant ssh -- -L 3333:127.0.0.1:5432)"
 
+if which keychain > /dev/null 2>&1; then
+    keychain $HOME/.ssh/id_rsa_bitbucket > /dev/null 2>&1
+    source $HOME/.keychain/$HOST-sh
+fi
+
 HOSTZSHRC="$HOME/.$HOST.zsh"
 if [ -e "$HOSTZSHRC" ]; then
     source "$HOSTZSHRC"

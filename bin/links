@@ -8,3 +8,7 @@ ln -s "$PWD/home/.irssi/scripts/irssi-notifier/notifier.pl" home/.irssi/scripts/
 
 rm home/.irssi/solarized-universal.theme
 ln -s "$PWD/home/.irssi/irssi-colors-solarized/solarized-universal.theme" home/.irssi/
+
+mkdir -p home/.oh-my-zsh/custom/themes
+rm home/.oh-my-zsh/custom/themes/pharp.zsh-theme
+ln -s "$PWD/zsh/themes/pharp.zsh-theme" home/.oh-my-zsh/custom/themes/

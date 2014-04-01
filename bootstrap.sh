@@ -61,6 +61,13 @@ function install() {
     install-watchdog
 }
 
+function install-ubuntu() {
+    install-watchdog
+    sudo apt-get install cpanminus
+    # For http://mattn.github.io/vdbi-vim/
+    sudo cpanm DBI Plack JSON DBD::Pg
+}
+
 function _ln() {
     local src="`echo "$1" | sed 's@^\./@'$(pwd)'/@'`"
 
