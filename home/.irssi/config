@@ -149,6 +149,7 @@ aliases = {
   UMODE = "mode $N";
   UNIG = "unignore";
   UNSET = "set -clear";
+  USERS = "who";
   W = "who";
   WC = "window close";
   WI = "whois";
