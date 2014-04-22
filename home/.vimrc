@@ -110,7 +110,7 @@ set wildignore+=*.pyc,*.pyo,*.pyd,*.egg-info/**,*.egg,develop-eggs/**,__pycache_
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 
 " ================ Syntastic ========================
-# let g:syntastic_mode_map = {'mode': 'passive'}
+" let g:syntastic_mode_map = {'mode': 'passive'}
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_python_checkers = ['pylint', 'pep8']
 
