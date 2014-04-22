@@ -22,6 +22,7 @@ set autoread                    "Reload files changed outside vim
 set ruler
 set smartcase
 set nrformats=octal,hex,alpha
+set cursorline
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -111,6 +112,11 @@ set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15
 set sidescroll=1
 
+" ================ Syntastic ========================
+# let g:syntastic_mode_map = {'mode': 'passive'}
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_python_checkers = ['pylint', 'pep8']
+
 " ================ Statusline ========================
 function! Statusline()
     set noruler
@@ -150,6 +156,7 @@ function! GetVisualSelection()
     return join(lines, "\n")
 endfunction
 command! GetVisualSelection echo GetVisualSelection()
+
 
 if filereadable(expand("~/.vim/keymaps.vim"))
     source ~/.vim/keymaps.vim

@@ -105,6 +105,10 @@ alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --r
 # tmux
 alias tmux="TERM=screen-256color-bce tmux"
 
+# Python
+export PYTHONUNBUFFERED=1
+export PYTHONDONTWRITEBYTECODE=1
+
 # Chartio
 alias handlebars-watch="watchmedo shell-command \
     --patterns=\"*.handlebars\" --recursive \

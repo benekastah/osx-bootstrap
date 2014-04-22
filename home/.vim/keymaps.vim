@@ -61,3 +61,9 @@ nmap <leader>ml :exe "/<<<<<<<\\\|=======\\\|>>>>>>>"<CR>
 nmap <leader>mh :exe "?<<<<<<<\\\|=======\\\|>>>>>>>"<CR>
 
 vmap ff :<C-u>exe ':Ag -Q '''.substitute(GetVisualSelection(), "'", "''", "")."'"<CR>
+
+" " Syntastic
+" nmap wce :w <bar> SyntasticCheck<CR>
+" nmap ce :SyntasticCheck<CR>
+" nmap <C-e>l :lnext<CR>
+" nmap <C-e>h :lprev<CR>
