@@ -1,4 +1,12 @@
 
+map <C-w> :w<CR>
+imap <C-w> <Esc><C-w>
+nmap qq :q<CR>
+nmap wq :wq<CR>
+nmap qqa :qa<CR>
+nmap wqa :wqa<CR>
+
+" Window navigation
 function! Wincmd(cmd)
     if exists('w:winmax')
         let l:prev_winmax = w:winmax
@@ -27,7 +35,6 @@ function! Wincmd(cmd)
     endif
 endfunction
 
-" Window navigation
 nmap w_ :wincmd _<CR> :let t:winmax = 1<CR> :let w:wineq = 0<CR> :let w:winmax = 0<CR>
 nmap w= :wincmd =<CR> :let t:winmax = 0<CR> :let w:wineq = 0<CR> :let w:winmax = 0<CR>
 nmap ww_ :wincmd _<CR> :let w:winmax = 1<CR> :let w:wineq = 0<CR>

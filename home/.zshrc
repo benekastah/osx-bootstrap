@@ -1,6 +1,12 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+# Ensure homebrew installs take precedence over system installs
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+# I like to have a ~/local/bin too
+export PATH="$HOME/local/bin:$PATH"
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -61,12 +67,6 @@ if [ -n "$VIMRUNTIME" ]; then
     export RPROMPT="$RPROMPT"'$FG[238]vim%{$reset_color%}'
 fi
 
-# Ensure homebrew installs take precedence over system installs
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-
-# I like to have a ~/local/bin too
-export PATH="$HOME/local/bin:$PATH"
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # # Preferred editor for local and remote sessions
@@ -103,7 +103,7 @@ alias todo="todo.sh"
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222"
 
 # tmux
-alias tmux="TERM=screen-256color-bce tmux"
+# alias tmux="TERM=screen-256color-bce tmux"
 
 # Chartio
 alias handlebars-watch="watchmedo shell-command \

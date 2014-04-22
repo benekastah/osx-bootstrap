@@ -106,11 +106,7 @@ set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.pyc,*.pyo,*.pyd,*.egg-info/**,*.egg,develop-eggs/**,__pycache__/**,.Python
 
 " ================ scrolling ========================
-
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
-set sidescrolloff=15
-set sidescroll=1
-
 " ================ Statusline ========================
 function! Statusline()
     set noruler
@@ -132,6 +128,12 @@ call Statusline()
 
 " ================ Tern ========================
 let tern#command = ['tern', '--no-port-file']
+
+" Syntastic config
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_error_symbol = 'E>'
 
 " D
 let g:syntastic_d_compiler = "$HOME/bin/dub-syntastic"
