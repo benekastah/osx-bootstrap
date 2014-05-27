@@ -37,7 +37,7 @@ function install-iterm2() {
     local DOWNLOAD="http://iterm2.com/downloads/stable/iTerm2_v1_0_0.zip"
     local ITERM_ZIP="$TMP_DIR/$NAME.zip"
     local TMP_ITERM="$TMP_DIR/$NAME"
-    
+
     wget "$DOWNLOAD" -O "$ITERM_ZIP"
     mkdir -p "$TMP_ITERM"
     unzip "$ITERM_ZIP" -d "$TMP_ITERM"

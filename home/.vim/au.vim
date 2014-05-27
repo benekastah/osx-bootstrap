@@ -17,6 +17,11 @@ augroup paulh
 
     autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal wrap | endif
 
+    autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown
+
+    autocmd BufNewFile,BufRead,BufFilePost *.json :set ft=json
+    autocmd FileType json runtime! syntax/javascript.vim
+
     " Diet templates
     autocmd BufNewFile,BufRead,BufFilePost *.dt :set ft=jade
 
