@@ -61,6 +61,10 @@ plugins=(git tmux python pep8 pip brew fabric virtualenv)
 ZSH_TMUX_AUTOSTART=true
 
 source $ZSH/oh-my-zsh.sh
+HOMESHICK_SH="$HOME/.homesick/repos/homeshick/homeshick.sh"
+if [ -e "$HOMESHICK_SH" ]; then
+    source "$HOMESHICK_SH"
+fi
 
 # User configuration
 
@@ -121,8 +125,6 @@ alias irssi="tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" &&
     tmux swap-pane -D && tmux resize-pane -x 10 && \
     tmux select-pane -R && \
     \irssi"
-
-alias vagrant-ssh="(cd $HOME/devbox && vagrant ssh -- -L 3333:127.0.0.1:5432)"
 
 castle-vim() {
     local BASE_DIR="$HOME/dev/chartio/chartio-castle"
