@@ -53,6 +53,17 @@ function install-vdbi-reqs() {
     sudo cpanm DBI Plack JSON DBD::Pg
 }
 
+function install-ropevim() {
+    local DIR="$HOME/.vim/bundle/ropevim"
+    if [ -d "$DIR" ]; then
+        local HERE="$PWD"
+        cd "$DIR"
+        sudo pip install rope
+        sudo python setup.py install
+        cd "$HERE"
+    fi
+}
+
 function install() {
     install-zsh
     install-oh-my-zsh

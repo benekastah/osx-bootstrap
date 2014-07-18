@@ -121,10 +121,20 @@ alias handlebars-watch="watchmedo shell-command \
 
 alias mutt="(cd ~/Downloads; \mutt)"
 
-alias irssi="tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
-    tmux swap-pane -D && tmux resize-pane -x 10 && \
+alias irssi=" \
+    tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
+    tmux swap-pane -D && \
+    (while :; do tmux resize-pane -t 1 -L -x 10; sleep 10; break; done)& \
+    RESIZE_PID=\$! && \
     tmux select-pane -R && \
-    \irssi"
+    \irssi && \
+    kill \$RESIZE_PID && \
+    tmux kill-pane -t 1"
+
+mdcd() {
+    DIR="${@: -1}"
+    mkdir "$@" && cd "$DIR"
+}
 
 castle-vim() {
     local BASE_DIR="$HOME/dev/chartio/chartio-castle"

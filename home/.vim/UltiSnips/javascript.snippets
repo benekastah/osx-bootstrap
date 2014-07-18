@@ -1,0 +1,71 @@
+snippet for "straight for loop" !b
+for (var ${1:i} = 0, len = ${2:array}.length; $1 < len; $1++) {
+	var ${3:entry} = $2[$1];
+	$0
+}
+endsnippet
+
+snippet forin "for in loop" !b
+for (var ${1:key} in ${2:object}) {
+	var ${3:value} = $2[$1];
+	$0
+}
+endsnippet
+
+snippet forown "for in loop" !b
+for (var ${1:key} in ${2:object}) {
+	if ($2.hasOwnProperty($1)) {
+		var ${3:value} = $2[$1];
+		$0
+	}
+}
+endsnippet
+
+snippet class "make a class"
+function ${1:ClassName}() {
+	this.$2.apply(this, arguments);
+}
+
+(function () {
+	this.${2:initialize} = function ($3) {
+		$0
+	};
+}).call($1.prototype);
+endsnippet
+
+snippet subclass "make a subclass"
+function ${1:ClassName}() {
+	this.SuperClass = $2;
+	this.super_ = $2.prototype;
+	this.SuperClass.apply(this, arguments);
+}
+
+$1.prototype = Object.create(${2:ParentClass}.prototype);
+$1.prototype.constructor = $1;
+
+(function () {
+	${0:// Method definitions here}
+}).call($1.prototype);
+endsnippet
+
+snippet function "make a function"
+function $1($2) {
+	$0
+}$3
+endsnippet
+
+snippet dofunction "make a self-executing function"
+(function $1($2) {
+	$0
+})($3)${4:;}
+endsnippet
+
+snippet NotImplemented "not implemented error"
+throw new Error('Not implemented');
+endsnippet
+
+snippet functionNotImplemented "a function with a not implemented error"
+function () {
+	throw new Error('Not implemented');
+}
+endsnippet

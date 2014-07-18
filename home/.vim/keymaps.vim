@@ -78,5 +78,5 @@ nmap <leader>el :lprev<CR>
 " Clear search
 nmap <leader>/ :let @/ = ""<CR>
 
-" Hide a buffer you want to keep
-nmap <leader>m :set bufhidden=hide
+nmap <leader>rg :EditRelatedFilesGit<CR>
+nmap <leader>rs :EditRelatedFilesName<CR>
