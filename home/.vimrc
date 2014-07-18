@@ -6,6 +6,7 @@ set nocompatible
 filetype off
 filetype plugin indent off
 set runtimepath+=$GOROOT/misc/vim
+set runtimepath+=$HOME/dev/git-related  " Remove once it is ready for vundle to install
 
 " ================ General Config ====================
 
@@ -122,8 +123,6 @@ let g:syntastic_javascript_checkers = ['jshint', 'eslint']
 let g:syntastic_c_checkers = ['make']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 let g:syntastic_error_symbol = 'E>'
 
 " ================ Statusline ========================
@@ -210,4 +209,13 @@ endif
 
 if filereadable(expand("~/.vim/au.vim"))
     source ~/.vim/au.vim
+endif
+
+if filereadable(expand("~/.vim/ranger.vim"))
+    source ~/.vim/ranger.vim
+endif
+
+let g:project_local_vimrc = FindFileBackward('.project.vim')
+if filereadable(g:project_local_vimrc)
+    execute 'source ' . g:project_local_vimrc
 endif

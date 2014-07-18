@@ -18,21 +18,12 @@ Bundle "gmarik/vundle"
 
 " Vim utilities that may be used by other plugins
 Bundle 'vim-misc'
-Bundle "tomtom/tlib_vim.git"
+" Bundle "tomtom/tlib_vim.git"
 
 Bundle 'xolox/vim-session'
 Bundle "airblade/vim-gitgutter"
 Bundle 'lukerandall/haskellmode-vim'
 Bundle 'moll/vim-bbye'
-
-" SQL
-Bundle "mattn/vdbi-vim"
-    Bundle "mattn/webapi-vim"
-
-" Javascript
-" Vim syntax file to add some colorations for jQuery keywords
-" and css selectors.
-Bundle "itspriddle/vim-jquery.git"
 
 " Html, Xml, Css, Markdown, Yaml...
 Bundle "kchmck/vim-coffee-script"
@@ -58,6 +49,13 @@ Bundle "tomtom/tcomment_vim.git"
 Bundle "rking/ag.vim"
 Bundle "scrooloose/syntastic.git"
 Bundle "skwp/vim-colors-solarized"
+Bundle "SirVer/ultisnips"
+
+" Trying before buying...
+Bundle "kien/ctrlp.vim"
+Bundle "kurkale6ka/vim-swap"
+Bundle "jdonaldson/vaxe"
+Bundle "wting/rust.vim"
 
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on

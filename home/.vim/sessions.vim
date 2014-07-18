@@ -69,3 +69,7 @@ command! -nargs=* -bang Gos let s:open_session_command = 'OpenSession<bang>' | c
 command! -nargs=* -bang SGos silent<bang> Gos <args>
 
 command! -nargs=* Gsn echo b:getGitSessionName(<f-args>)
+
+" if !len(argv())
+"     silent call b:openGitSession()
+" endif
