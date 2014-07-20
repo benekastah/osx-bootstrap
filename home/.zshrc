@@ -1,6 +1,16 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
+# Ensure homebrew installs take precedence over system installs
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+# I like to have a ~/local/bin too
+export PATH="$HOME/local/bin:$PATH"
+
+# tmux
+# Configure this before the plugins
+alias tmux="TERM=screen-256color-bce tmux -2"
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -45,12 +55,16 @@ CASE_SENSITIVE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git tmux python pep8 pip brew fabric virtualenv-prompt)
+plugins=(git tmux python pep8 pip brew fabric virtualenv)
 
 # tmux
 ZSH_TMUX_AUTOSTART=true
 
 source $ZSH/oh-my-zsh.sh
+HOMESHICK_SH="$HOME/.homesick/repos/homeshick/homeshick.sh"
+if [ -e "$HOMESHICK_SH" ]; then
+    source "$HOMESHICK_SH"
+fi
 
 # User configuration
 
@@ -60,12 +74,6 @@ setopt histignorespace
 if [ -n "$VIMRUNTIME" ]; then
     export RPROMPT="$RPROMPT"'$FG[238]vim%{$reset_color%}'
 fi
-
-# Ensure homebrew installs take precedence over system installs
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-
-# I like to have a ~/local/bin too
-export PATH="$HOME/local/bin:$PATH"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -102,8 +110,9 @@ alias todo="todo.sh"
 # Chrome
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222"
 
-# tmux
-alias tmux="TERM=screen-256color-bce tmux"
+# Python
+export PYTHONUNBUFFERED=1
+export PYTHONDONTWRITEBYTECODE=1
 
 # Chartio
 alias handlebars-watch="watchmedo shell-command \
@@ -112,12 +121,51 @@ alias handlebars-watch="watchmedo shell-command \
 
 alias mutt="(cd ~/Downloads; \mutt)"
 
-alias irssi="tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
-    tmux swap-pane -D && tmux resize-pane -x 10 && \
+alias irssi=" \
+    tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
+    tmux swap-pane -D && \
+    (while :; do tmux resize-pane -t 1 -L -x 10; sleep 10; break; done)& \
+    RESIZE_PID=\$! && \
     tmux select-pane -R && \
-    \irssi"
+    \irssi && \
+    kill \$RESIZE_PID && \
+    tmux kill-pane -t 1"
 
-alias vagrant-ssh="(cd $HOME/devbox && vagrant ssh -- -L 3333:127.0.0.1:5432)"
+mdcd() {
+    DIR="${@: -1}"
+    mkdir "$@" && cd "$DIR"
+}
+
+castle-vim() {
+    local BASE_DIR="$HOME/dev/chartio/chartio-castle"
+    local PY_ARGS=(
+        '+cd\ '"$BASE_DIR"
+    )
+    if [ -n "$1" ]; then
+        PY_ARGS+='+e\ '"$1"
+    fi
+
+    local JS_ARGS=(
+        '+tabe'
+        '+lcd\ '"$BASE_DIR/assets/app/javascripts"
+    )
+    if [ -n "$2" ]; then
+        JS_ARGS+='+e\ '"$2"
+    fi
+
+    local TPL_ARGS=(
+        '+tabe'
+        '+lcd\ '"$BASE_DIR/sqlcharts/templates"
+    )
+    if [ -n "$3" ]; then
+        TPL_ARGS+='+e\ '"$3"
+    fi
+
+    local VIM_ARGS=($PY_ARGS $JS_ARGS $TPL_ARGS '+tabfirst')
+
+    # echo vim "${(@)VIM_ARGS}"
+    vim "${(@)VIM_ARGS}"
+}
 
 if which keychain > /dev/null 2>&1; then
     keychain $HOME/.ssh/id_rsa_bitbucket > /dev/null 2>&1

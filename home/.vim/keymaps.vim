@@ -1,4 +1,11 @@
 
+nmap <leader>w :w<CR>
+nmap <leader>qq :q<CR>
+nmap <leader>wq :wq<CR>
+nmap <leader>qqa :qa<CR>
+nmap <leader>wqa :wqa<CR>
+
+" Window navigation
 function! Wincmd(cmd)
     if exists('w:winmax')
         let l:prev_winmax = w:winmax
@@ -27,7 +34,6 @@ function! Wincmd(cmd)
     endif
 endfunction
 
-" Window navigation
 nmap w_ :wincmd _<CR> :let t:winmax = 1<CR> :let w:wineq = 0<CR> :let w:winmax = 0<CR>
 nmap w= :wincmd =<CR> :let t:winmax = 0<CR> :let w:wineq = 0<CR> :let w:winmax = 0<CR>
 nmap ww_ :wincmd _<CR> :let w:winmax = 1<CR> :let w:wineq = 0<CR>
@@ -60,4 +66,17 @@ nmap <leader>p :let @* = substitute(system("pbpaste"), "\n\$", "", "")<CR>"*p
 nmap <leader>ml :exe "/<<<<<<<\\\|=======\\\|>>>>>>>"<CR>
 nmap <leader>mh :exe "?<<<<<<<\\\|=======\\\|>>>>>>>"<CR>
 
-vmap ff :<C-u>exe ':Ag -Q '''.substitute(GetVisualSelection(), "'", "''", "")."'"<CR>
+vmap * :<C-u>exe '/'.GetVisualSelection()<CR>
+vmap <leader>* :<C-u>call AgLiteral(GetVisualSelection())<CR>
+nmap <leader>* *N:call ag#AgFromSearch('grep', '')<CR>
+
+" Syntastic
+nmap <leader>e :SyntasticCheck<CR>
+nmap <leader>eh :lnext<CR>
+nmap <leader>el :lprev<CR>
+
+" Clear search
+nmap <leader>/ :let @/ = ""<CR>
+
+nmap <leader>rg :EditRelatedFilesGit<CR>
+nmap <leader>rs :EditRelatedFilesName<CR>

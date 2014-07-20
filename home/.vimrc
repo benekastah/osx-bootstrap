@@ -6,6 +6,7 @@ set nocompatible
 filetype off
 filetype plugin indent off
 set runtimepath+=$GOROOT/misc/vim
+set runtimepath+=$HOME/dev/git-related  " Remove once it is ready for vundle to install
 
 " ================ General Config ====================
 
@@ -23,6 +24,9 @@ set ruler
 set smartcase
 set nrformats=octal,hex,alpha
 set cryptmethod=blowfish
+set cursorline
+set tags=./tags;/,tags;/
+set hlsearch
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -36,7 +40,7 @@ syntax on
 " That means all \x commands turn into ,x
 " The mapleader has to be set before vundle starts loading all 
 " the plugins.
-let mapleader=","
+let mapleader="\<Space>"
 
 " =============== Vundle Initialization ===============
 " This loads all the plugins specified in ~/.vim/vundle.vim
@@ -107,10 +111,20 @@ set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.pyc,*.pyo,*.pyd,*.egg-info/**,*.egg,develop-eggs/**,__pycache__/**,.Python
 
 " ================ scrolling ========================
-
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
-set sidescrolloff=15
-set sidescroll=1
+
+" ================ Syntastic ========================
+" let g:syntastic_mode_map = {'mode': 'passive'}
+let g:syntastic_python_checkers = ['pylint', 'pep8']
+" let g:syntastic_python_pylint_exe = 'pylint-vim'
+" let g:syntastic_python_pep8_exe = 'pep8-vim'
+let g:syntastic_python_pylint_exe = 'pylint'
+let g:syntastic_python_pep8_exe = 'pep8'
+let g:syntastic_javascript_checkers = ['jshint', 'eslint']
+let g:syntastic_c_checkers = ['make']
+let g:syntastic_aggregate_errors = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_error_symbol = 'E>'
 
 " ================ Statusline ========================
 function! Statusline()
@@ -154,6 +168,40 @@ function! GetVisualSelection()
 endfunction
 command! GetVisualSelection echo GetVisualSelection()
 
+function! s:findFileBackward(path, filename)
+    let file = a:filename
+    let path = a:path
+    if !strlen(path)
+        let path = '.'
+    endif
+    while !filereadable(file)
+        if path ==# '/'
+            return ''
+        endif
+        let path = system('cd '.shellescape(path.'/..').' && echo -n $PWD')
+        let file = path.'/'.a:filename
+    endwhile
+    return file
+endfunction
+
+function! FindFileBackward(filename)
+    " Try to resolve the file from the current buffer first
+    let file = s:findFileBackward(expand('%:h'), a:filename)
+    if !strlen(file)
+        " Try to resolve the file from the cwd
+        return s:findFileBackward(getcwd(), a:filename)
+    endif
+    return file
+endfunction
+
+
+function! AgLiteral(term)
+    let term = substitute(escape(a:term, '\'), '\n', '\\n', 'g')
+    call ag#Ag('grep', '-Q '.term)
+endfunction
+command! -nargs=* Agq call AgLiteral(<q-args>)
+
+
 if filereadable(expand("~/.vim/keymaps.vim"))
     source ~/.vim/keymaps.vim
 endif
@@ -164,4 +212,13 @@ endif
 
 if filereadable(expand("~/.vim/au.vim"))
     source ~/.vim/au.vim
+endif
+
+if filereadable(expand("~/.vim/ranger.vim"))
+    source ~/.vim/ranger.vim
+endif
+
+let g:project_local_vimrc = FindFileBackward('.project.vim')
+if filereadable(g:project_local_vimrc)
+    execute 'source ' . g:project_local_vimrc
 endif

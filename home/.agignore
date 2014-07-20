@@ -1,3 +1,6 @@
+compiled/
 compiled_javascripts/
-javascripts/compiled/
 deps.*.json
+migrations/
+static/
+tags
