@@ -22,6 +22,7 @@ set autoread                    "Reload files changed outside vim
 set ruler
 set smartcase
 set nrformats=octal,hex,alpha
+set cryptmethod=blowfish
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -137,6 +138,8 @@ let tern#command = ['tern', '--no-port-file']
 let g:syntastic_d_compiler = "$HOME/bin/dub-syntastic"
 " let g:syntastic_d_dmd_exec = "dub"
 " let g:syntastic_d_dmd_args = "build --quiet"
+
+let g:haddock_browser = ""
 
 
 " Utility functions

@@ -74,6 +74,9 @@ Bundle "matchit.zip"
 " D
 Bundle "d.vim"
 
+" Scala
+Bundle "derekwyatt/vim-scala"
+
 " Git related...
 Bundle "gregsexton/gitv"
 Bundle "tjennings/git-grep-vim"
