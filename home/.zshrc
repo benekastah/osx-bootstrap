@@ -124,11 +124,10 @@ alias mutt="(cd ~/Downloads; \mutt)"
 alias irssi=" \
     tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
     tmux swap-pane -D && \
-    (while :; do tmux resize-pane -t 1 -L -x 10; sleep 10; break; done)& \
+    tmux resize-pane -t 1 -L -x 10 && \
     RESIZE_PID=\$! && \
     tmux select-pane -R && \
     \irssi && \
-    kill \$RESIZE_PID && \
     tmux kill-pane -t 1"
 
 alias ssh-client-ip="echo \$SSH_CLIENT | awk '{print \$1}'"
