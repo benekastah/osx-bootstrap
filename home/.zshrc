@@ -61,6 +61,10 @@ plugins=(git tmux python pep8 pip brew fabric virtualenv)
 ZSH_TMUX_AUTOSTART=true
 
 source $ZSH/oh-my-zsh.sh
+HOMESHICK_SH="$HOME/.homesick/repos/homeshick/homeshick.sh"
+if [ -e "$HOMESHICK_SH" ]; then
+    source "$HOMESHICK_SH"
+fi
 
 # User configuration
 
@@ -130,8 +134,6 @@ mdcd() {
     DIR="${@: -1}"
     mkdir "$@" && cd "$DIR"
 }
-
-alias vagrant-ssh="(cd $HOME/devbox && vagrant ssh -- -L 3333:127.0.0.1:5432)"
 
 castle-vim() {
     local BASE_DIR="$HOME/dev/chartio/chartio-castle"

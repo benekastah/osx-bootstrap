@@ -10,11 +10,11 @@
 " Filetype off is required by vundle
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
 " let Vundle manage Vundle (required)
-Bundle "gmarik/vundle"
+Bundle "gmarik/Vundle.vim"
 
 " Vim utilities that may be used by other plugins
 Bundle 'vim-misc'
@@ -35,6 +35,9 @@ Bundle "mustache/vim-mustache-handlebars"
 
 " D
 " Bundle "d.vim"
+
+" Scala
+Bundle "derekwyatt/vim-scala"
 
 " Git related...
 " Bundle "gregsexton/gitv"
@@ -57,5 +60,6 @@ Bundle "kurkale6ka/vim-swap"
 Bundle "jdonaldson/vaxe"
 Bundle "wting/rust.vim"
 
+call vundle#end()
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on

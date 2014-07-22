@@ -7,6 +7,7 @@ home/.irssi/modules/libtext_xmpp.so
 home/.irssi/modules/libxmpp_core.so
 home/.irssi/scripts/autorun
 home/.irssi/solarized-universal.theme
+home/.vim/.netrwhist
 home/.vim/backups
 home/.vim/bundle
 home/.vim/sessions

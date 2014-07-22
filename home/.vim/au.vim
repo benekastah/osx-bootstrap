@@ -27,5 +27,7 @@ augroup paulh
 
     autocmd BufNewFile,BufRead,BufFilePost *.h,*.cpp :let b:syntastic_cpp_cflags='@g++_opts'
 
-    autocmd FileType go set makeprg="go install"
+    autocmd BufNewFile,BufRead,BufFilePost *.jison set ft=yacc
+
+    autocmd Filetype go set makeprg=go\ build
 augroup END
