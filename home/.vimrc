@@ -23,6 +23,7 @@ set autoread                    "Reload files changed outside vim
 set ruler
 set smartcase
 set nrformats=octal,hex,alpha
+set cryptmethod=blowfish
 set cursorline
 set tags=./tags;/,tags;/
 set hlsearch
@@ -151,6 +152,8 @@ let tern#command = ['tern', '--no-port-file']
 let g:syntastic_d_compiler = "$HOME/bin/dub-syntastic"
 " let g:syntastic_d_dmd_exec = "dub"
 " let g:syntastic_d_dmd_args = "build --quiet"
+
+let g:haddock_browser = ""
 
 
 " Utility functions

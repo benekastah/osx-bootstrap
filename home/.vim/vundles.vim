@@ -32,6 +32,8 @@ Bundle "jtratner/vim-flavored-markdown.git"
 Bundle "stephpy/vim-yaml"
 Bundle "mustache/vim-mustache-handlebars"
 
+" Scala
+Bundle "derekwyatt/vim-scala"
 Bundle "tpope/vim-fugitive"
 " syntax, indent, and filetype plugin files for git, gitcommit, gitconfig,
 " gitrebase, and gitsendemail.
