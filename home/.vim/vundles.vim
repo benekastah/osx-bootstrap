@@ -18,7 +18,6 @@ Bundle "gmarik/Vundle.vim"
 
 " Vim utilities that may be used by other plugins
 Bundle 'vim-misc'
-" Bundle "tomtom/tlib_vim.git"
 
 Bundle 'xolox/vim-session'
 Bundle "airblade/vim-gitgutter"
@@ -33,12 +32,6 @@ Bundle "jtratner/vim-flavored-markdown.git"
 Bundle "stephpy/vim-yaml"
 Bundle "mustache/vim-mustache-handlebars"
 
-" D
-" Bundle "d.vim"
-
-" Git related...
-" Bundle "gregsexton/gitv"
-" Bundle "tjennings/git-grep-vim"
 Bundle "tpope/vim-fugitive"
 " syntax, indent, and filetype plugin files for git, gitcommit, gitconfig,
 " gitrebase, and gitsendemail.
@@ -50,12 +43,13 @@ Bundle "rking/ag.vim"
 Bundle "scrooloose/syntastic.git"
 Bundle "skwp/vim-colors-solarized"
 Bundle "SirVer/ultisnips"
+Bundle "kien/ctrlp.vim"
 
 " Trying before buying...
-Bundle "kien/ctrlp.vim"
-Bundle "kurkale6ka/vim-swap"
 Bundle "jdonaldson/vaxe"
 Bundle "wting/rust.vim"
+" A plugin which makes swapping of text in Vim easier
+Bundle "kurkale6ka/vim-swap"
 
 call vundle#end()
 "Filetype plugin indent on is required by vundle

@@ -131,6 +131,8 @@ alias irssi=" \
     kill \$RESIZE_PID && \
     tmux kill-pane -t 1"
 
+alias ssh-client-ip="echo \$SSH_CLIENT | awk '{print \$1}'"
+
 mdcd() {
     DIR="${@: -1}"
     mkdir "$@" && cd "$DIR"
