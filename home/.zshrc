@@ -168,6 +168,21 @@ castle-vim() {
     vim "${(@)VIM_ARGS}"
 }
 
+tmux-colors() {
+    local i
+    local j
+    for i in {0..255}; do
+        local END="\t"
+        if [[ $(($i % 8)) == 0 ]]; then
+            END="\n"
+        fi
+        for j in {0..$((3 - ${#i}))}; do
+            END=" $END"
+        done
+        printf "\x1b[38;5;${i}mcolour${i}$END"
+    done
+}
+
 if which keychain > /dev/null 2>&1; then
     keychain $HOME/.ssh/id_rsa_bitbucket > /dev/null 2>&1
     source $HOME/.keychain/$HOST-sh
