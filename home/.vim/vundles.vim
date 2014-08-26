@@ -52,6 +52,7 @@ Bundle "jdonaldson/vaxe"
 Bundle "wting/rust.vim"
 " A plugin which makes swapping of text in Vim easier
 Bundle "kurkale6ka/vim-swap"
+Bundle "benmills/vimux"
 
 call vundle#end()
 "Filetype plugin indent on is required by vundle

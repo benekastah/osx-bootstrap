@@ -125,7 +125,6 @@ alias irssi=" \
     tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
     tmux swap-pane -D && \
     tmux resize-pane -t 1 -L -x 10 && \
-    RESIZE_PID=\$! && \
     tmux select-pane -R && \
     \irssi && \
     tmux kill-pane -t 1"
@@ -192,4 +191,3 @@ HOSTZSHRC="$HOME/.$HOST.zsh"
 if [ -e "$HOSTZSHRC" ]; then
     source "$HOSTZSHRC"
 fi
-

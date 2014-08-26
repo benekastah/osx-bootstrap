@@ -30,4 +30,8 @@ augroup paulh
     autocmd BufNewFile,BufRead,BufFilePost *.jison set ft=yacc
 
     autocmd Filetype go set makeprg=go\ build
+
+    autocmd Filetype python :let b:indentNoEndDelimiter = 1
+
+    autocmd VimLeave * :VimuxCloseRunner
 augroup END
