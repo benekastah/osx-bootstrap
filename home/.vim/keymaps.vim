@@ -99,6 +99,8 @@ onoremap <silent>ai :<C-U>call <SID>IndTxtObj(0)<CR>
 onoremap <silent>ii :<C-U>call <SID>IndTxtObj(1)<CR>
 vnoremap <silent>ai :<C-U>call <SID>IndTxtObj(0)<CR><Esc>gv
 vnoremap <silent>ii :<C-U>call <SID>IndTxtObj(1)<CR><Esc>gv
+nnoremap <silent>{ :<C-U>call <SID>GoToIndStart(1)<CR>
+nnoremap <silent>} :<C-U>call <SID>GoToIndEnd(1)<CR>
 
 function! <SID>IndLevel(lineno, default)
     if g:LineIsBlank(a:lineno)
@@ -109,19 +111,23 @@ function! <SID>IndLevel(lineno, default)
 endfunction
 
 function! g:NextNonBlankLine()
+    let search = @/
     try
         exe '/^\s*\S'
     catch
         normal! gg
     endtry
+    let @/ = search
 endfunction
 
 function! g:PrevNonBlankLine()
+    let search = @/
     try
         exe '?^\s*\S'
     catch
         normal! G
     endtry
+    let @/ = search
 endfunction
 
 function! g:LineIsBlank(...)
@@ -133,49 +139,9 @@ function! g:LineIsBlank(...)
     return getline(ln) =~# '^\s*$'
 endfunction
 
-function! <SID>IndTxtObj(inner)
-    let curcol = col(".")
-    let curline = line(".")
-    let lastline = line("$")
-    let i = indent(line("."))
-
-    " If line is blank, don't attempt to find indent level unless surrounding
-    " lines are the same level.
-    if g:LineIsBlank()
-        call g:PrevNonBlankLine()
-        let prevI = indent(line('.'))
-        call g:NextNonBlankLine()
-        let nextI = indent(line('.'))
-        let @/ = ""
-        call cursor(curline, curcol)
-        if prevI !=# nextI
-            return
-        else
-            let i = nextI
-        endif
-    endif
-
-    let n = curline
-    let trimLast = 1
-    while n <= lastline && <SID>IndLevel(n, i) >= i
-        normal! +
-        let n = line(".")
-        if n ==# lastline
-            break
-        endif
-    endwhile
-    if (a:inner || (exists('b:indentNoEndDelimiter') && b:indentNoEndDelimiter)) && <SID>IndLevel(n, i) < i
-        normal! -
-    endif
-
-    if g:LineIsBlank()
-        call g:PrevNonBlankLine()
-    endif
-
-    normal! 0V
-    call cursor(curline, curcol)
-
-    let p = curline
+function! <SID>GoToIndStart(inner)
+    let i = <SID>ContextualIndent()
+    let p = line('.')
     while p >= 1 && <SID>IndLevel(p, i) >= i
         normal! -
         let p = line(".")
@@ -190,8 +156,56 @@ function! <SID>IndTxtObj(inner)
     if g:LineIsBlank()
         call g:NextNonBlankLine()
     endif
+endfunction
 
-    normal! $
+function! <SID>GoToIndEnd(inner)
+    let i = <SID>ContextualIndent()
+    let lastline = line('$')
+    let n = line('.')
+    while n <= lastline && <SID>IndLevel(n, i) >= i
+        normal! +
+        let n = line(".")
+        if n ==# lastline
+            break
+        endif
+    endwhile
+    if (a:inner || (exists('b:indentNoEndDelimiter') && b:indentNoEndDelimiter)) && <SID>IndLevel(n, i) < i
+        normal! -
+    endif
+
+    if g:LineIsBlank()
+        call g:PrevNonBlankLine()
+    endif
+endfunction
+
+function! <SID>ContextualIndent(...)
+    let curline = line('.')
+    let curcol = col('.')
+    if a:0
+        let ln = a:1
+    else
+        let ln = curline
+    endif
+
+    let i = indent(ln)
+    if g:LineIsBlank(ln)
+        call g:NextNonBlankLine()
+        let i = indent(line('.'))
+        call cursor(curline, curcol)
+    endif
+
+    return i
+endfunction
+
+" TODO refactor so this doesn't use visual mode?
+function! <SID>IndTxtObj(inner)
+    let curline = line('.')
+    let curcol = col('.')
+    call <SID>GoToIndEnd(a:inner)
+    normal! $V
+    call cursor(curline, curcol)
+    call <SID>GoToIndStart(a:inner)
+    normal! 0
 endfunction
 
 " Vimux
@@ -211,4 +225,34 @@ function! PylintFile(...)
         let file = '%'
     endif
     :VimuxRunCommand 'pylint '.expand(file)
+endfunction
+
+" Sql tester
+nnoremap <leader>sq :call RunSqlQuery()<CR>
+
+function! RunSqlQuery()
+python << EOF
+
+import os
+import tempfile
+import time
+import vim
+
+def run_query(sqlFile):
+    sqlCmd = vim.eval('b:sqlCommand') if int(vim.eval('exists("b:sqlCommand")')) else vim.eval('g:sqlCommand')
+    vim.command('VimuxRunCommand "cat {} | {} | less"'.
+        format(sqlFile, sqlCmd))
+
+fname = vim.eval('expand("%")')
+if not os.path.exists(fname):
+    with tempfile.NamedTemporaryFile() as f:
+        f.write('\n'.join(vim.current.buffer))
+        f.flush()
+        run_query(f.name)
+        # This just ensures that cat can read the file before it gets deleted
+        time.sleep(0.1)
+else:
+    run_query(fname)
+
+EOF
 endfunction

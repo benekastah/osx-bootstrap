@@ -129,11 +129,18 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_error_symbol = 'E>'
 
+" Tortoise Typing
+let g:tortoiseTypingKeyLog = $HOME.'/.typing_keys'
+let g:tortoiseTypingResultLog = $HOME.'/.typing_tests'
+
 " Sorting (see ~/.vim/keymaps for the function that this modifies)
 let g:sort_lines_default_args = 'i'
 
 " Vimux config
 let g:vimuxHeight = "10"
+
+" RunSqlQuery config
+let g:sqlCommand = 'psql'
 
 " ================ Statusline ========================
 function! Statusline()
