@@ -131,6 +131,8 @@ alias irssi=" \
 
 alias ssh-client-ip="echo \$SSH_CLIENT | awk '{print \$1}'"
 
+alias info="\info --vi-keys"
+
 mdcd() {
     DIR="${@: -1}"
     mkdir "$@" && cd "$DIR"

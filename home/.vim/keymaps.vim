@@ -99,8 +99,11 @@ onoremap <silent>ai :<C-U>call <SID>IndTxtObj(0)<CR>
 onoremap <silent>ii :<C-U>call <SID>IndTxtObj(1)<CR>
 vnoremap <silent>ai :<C-U>call <SID>IndTxtObj(0)<CR><Esc>gv
 vnoremap <silent>ii :<C-U>call <SID>IndTxtObj(1)<CR><Esc>gv
-nnoremap <silent>{ :<C-U>call <SID>GoToIndStart(1)<CR>
-nnoremap <silent>} :<C-U>call <SID>GoToIndEnd(1)<CR>
+
+nnoremap <leader>[ :<C-U>call <SID>GoToIndStart(1)<CR>
+onoremap <leader>] :<C-U>call <SID>GoToIndEnd(1)<CR>
+nnoremap <leader>{ :<C-U>call <SID>GoToIndStart(0)<CR>
+nnoremap <leader>} :<C-U>call <SID>GoToIndEnd(0)<CR>
 
 function! <SID>IndLevel(lineno, default)
     if g:LineIsBlank(a:lineno)
@@ -156,6 +159,8 @@ function! <SID>GoToIndStart(inner)
     if g:LineIsBlank()
         call g:NextNonBlankLine()
     endif
+
+    normal! 0
 endfunction
 
 function! <SID>GoToIndEnd(inner)
@@ -176,6 +181,8 @@ function! <SID>GoToIndEnd(inner)
     if g:LineIsBlank()
         call g:PrevNonBlankLine()
     endif
+
+    normal! $
 endfunction
 
 function! <SID>ContextualIndent(...)
@@ -256,3 +263,23 @@ else:
 
 EOF
 endfunction
+
+" Gen tags
+let g:gentag_command = 'ctags -R .'
+let g:gentag_vimux = exists(':VimuxRunCommand')
+function! g:GenTags(...)
+    if a:0
+        let vimux = a:1
+    else
+        let vimux = g:gentag_vimux
+    endif
+    if vimux
+        exe ':VimuxRunCommand '.shellescape(g:gentag_command)
+    else
+        exe '!'.g:gentag_command
+    endif
+endfunction
+
+nnoremap <leader>gt :call g:GenTags()<CR>
+nnoremap <leader>gts :call g:GenTags(0)<CR>
+nnoremap <leader>gtv :call g:GenTags(1)<CR>
