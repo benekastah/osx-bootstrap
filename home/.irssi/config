@@ -284,15 +284,23 @@ settings = {
   };
   "fe-text" = { actlist_sort = "refnum"; };
   "fe-common/core" = {
-    theme = "solarized-universal";
     use_status_window = "no";
     reuse_unused_windows = "yes";
+    # Solarized
+    theme = "solarized-universal";
+    hilight_color = "= %R";
   };
   "perl/core/scripts" = {
     notifier_on_regex = "(?=^(?:(?!paul).)*$).*";
     awl_viewer = "yes";
     awl_block = "-9";
     awl_prefer_name = "no";
+
+    ### For Solarized adv_windowlist.pl script
+    awl_display_key_active = "%k%2[$Q=$N:$C]%n";
+    awl_display_nokey_active = "%k%2[$N:$C]%n";
+    awl_display_key = "[$Q:$H$C$S]";
+    awl_display_nokey = "[$N:$H$C$S]";
   };
 };
 hilights = (

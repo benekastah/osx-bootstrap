@@ -124,12 +124,14 @@ alias mutt="(cd ~/Downloads; \mutt)"
 alias irssi=" \
     tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
     tmux swap-pane -D && \
-    (while :; do tmux resize-pane -t 1 -L -x 10; sleep 10; break; done)& \
-    RESIZE_PID=\$! && \
+    tmux resize-pane -t 1 -L -x 10 && \
     tmux select-pane -R && \
     \irssi && \
-    kill \$RESIZE_PID && \
     tmux kill-pane -t 1"
+
+alias ssh-client-ip="echo \$SSH_CLIENT | awk '{print \$1}'"
+
+alias info="\info --vi-keys"
 
 mdcd() {
     DIR="${@: -1}"
@@ -167,6 +169,21 @@ castle-vim() {
     vim "${(@)VIM_ARGS}"
 }
 
+tmux-colors() {
+    local i
+    local j
+    for i in {0..255}; do
+        local END="\t"
+        if [[ $(($i % 8)) == 0 ]]; then
+            END="\n"
+        fi
+        for j in {0..$((3 - ${#i}))}; do
+            END=" $END"
+        done
+        printf "\x1b[38;5;${i}mcolour${i}$END"
+    done
+}
+
 if which keychain > /dev/null 2>&1; then
     keychain $HOME/.ssh/id_rsa_bitbucket > /dev/null 2>&1
     source $HOME/.keychain/$HOST-sh
@@ -176,4 +193,3 @@ HOSTZSHRC="$HOME/.$HOST.zsh"
 if [ -e "$HOSTZSHRC" ]; then
     source "$HOSTZSHRC"
 fi
-

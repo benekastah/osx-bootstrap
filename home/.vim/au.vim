@@ -34,4 +34,8 @@ augroup paulh
     autocmd Filetype rust set makeprg=cargo\ build
 
     autocmd Filetype haskell set makeprg=~/Library/Haskell/bin/cabal\ build
+
+    autocmd Filetype python :let b:indentNoEndDelimiter = 1
+
+    autocmd VimLeave * :VimuxCloseRunner
 augroup END
