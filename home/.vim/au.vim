@@ -30,4 +30,8 @@ augroup paulh
     autocmd BufNewFile,BufRead,BufFilePost *.jison set ft=yacc
 
     autocmd Filetype go set makeprg=go\ build
+
+    autocmd Filetype rust set makeprg=cargo\ build
+
+    autocmd Filetype haskell set makeprg=~/Library/Haskell/bin/cabal\ build
 augroup END
