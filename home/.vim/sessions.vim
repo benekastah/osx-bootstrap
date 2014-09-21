@@ -8,68 +8,68 @@ function! Strip(input_string)
     return substitute(a:input_string, '^\_s*\(.\{-}\)\_s*$', '\1', '')
 endfunction
 
-function! b:getCurrentGitBranch()
+function! s:getCurrentGitBranch()
     let l:result = system("git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* //'")
     return Strip(l:result)
 endfunction
 
-function! b:getGitDirectory(...)
+function! s:getGitDirectory(...)
     let l:result = system('git rev-parse --show-toplevel')
     return Strip(l:result)
 endfunction
 
-function! b:getSafeGitDirectory()
-    let l:result = b:getGitDirectory()
+function! s:getSafeGitDirectory()
+    let l:result = s:getGitDirectory()
     return substitute(l:result, '/', '-', 'g')
 endfunction
 
-function! b:getGitSessionName(...)
+function! s:getGitSessionName(...)
     if a:0 ># 0
         let l:branch = a:1
     else
-        let l:branch = b:getCurrentGitBranch()
+        let l:branch = s:getCurrentGitBranch()
     endif
-    let l:dir = b:getSafeGitDirectory()
+    let l:dir = s:getSafeGitDirectory()
     return l:dir . '_' . l:branch
 endfunction
 
 let s:save_session_command = 'SaveSession'
-function! b:saveGitSession(...)
-    let name = call(function('b:getGitSessionName'), a:000)
+function! s:saveGitSession(...)
+    let name = call(function('s:getGitSessionName'), a:000)
     execute s:save_session_command name
 endfunction
 
 let s:open_session_command = 'OpenSession'
-function! b:openGitSession(...)
-    let name = call(function('b:getGitSessionName'), a:000)
+function! s:openGitSession(...)
+    let name = call(function('s:getGitSessionName'), a:000)
     execute s:open_session_command name
 endfunction
 
-function! b:sessionGitCheckout(branch)
-    let l:currentBranch = b:getCurrentGitBranch()
+function! s:sessionGitCheckout(branch)
+    let l:currentBranch = s:getCurrentGitBranch()
     let l:checkoutResult = system('git checkout ' . shellescape(a:branch))
     if v:shell_error
         echo l:checkoutResult
         return
     endif
-    call b:saveGitSession(l:currentBranch)
+    call s:saveGitSession(l:currentBranch)
     CloseSession
     try
         " Will fail if that git branch has no session
-        call b:openGitSession()
+        call s:openGitSession()
     endtry
 endfunction
 
-command! -nargs=1 Gsc call b:sessionGitCheckout(<f-args>)
+command! -nargs=1 Gsc call s:sessionGitCheckout(<f-args>)
 
-command! -nargs=* -bang Gss let s:save_session_command = 'SaveSession<bang>' | call b:saveGitSession(<f-args>) | let s:save_session_command = 'SaveSession'
+command! -nargs=* -bang Gss let s:save_session_command = 'SaveSession<bang>' | call s:saveGitSession(<f-args>) | let s:save_session_command = 'SaveSession'
 command! -nargs=* -bang SGss silent<bang> Gos <args>
 
-command! -nargs=* -bang Gos let s:open_session_command = 'OpenSession<bang>' | call b:openGitSession(<f-args>) | let s:open_session_command = 'OpenSession'
+command! -nargs=* -bang Gos let s:open_session_command = 'OpenSession<bang>' | call s:openGitSession(<f-args>) | let s:open_session_command = 'OpenSession'
 command! -nargs=* -bang SGos silent<bang> Gos <args>
 
-command! -nargs=* Gsn echo b:getGitSessionName(<f-args>)
+command! -nargs=* Gsn echo s:getGitSessionName(<f-args>)
 
 " if !len(argv())
-"     silent call b:openGitSession()
+"     silent call s:openGitSession()
 " endif

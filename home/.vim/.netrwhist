@@ -1,5 +1,5 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='rsync://paul.chartio.org/'
 let g:netrw_dirhist_2='scp://paul.chartio.org/'
 let g:netrw_dirhist_3='/Users/paul/paul.chartio.org/home'
@@ -7,3 +7,5 @@ let g:netrw_dirhist_4='/Users/paul/paul.chartio.org/sqlcharts'
 let g:netrw_dirhist_5='/Users/benekastah/dev/tj/src'
 let g:netrw_dirhist_6='/Users/benekastah/local/bin'
 let g:netrw_dirhist_7='/Users/benekastah/dev/teej/hs/exe'
+let g:netrw_dirhist_8='/home/paul/.vim/UltiSnips'
+let g:netrw_dirhist_9='/home/paul/.vim'

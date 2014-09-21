@@ -22,14 +22,12 @@ set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set ruler
 set nrformats=octal,hex,alpha
-set cryptmethod=blowfish
+if !has('neovim')
+    set cryptmethod=blowfish
+endif
 set cursorline
 set tags=./tags;/,tags;/
 set hlsearch
-
-" Use these two together
-set ignorecase
-set smartcase
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -134,7 +132,7 @@ let g:tortoiseTypingKeyLog = $HOME.'/.typing_keys'
 let g:tortoiseTypingResultLog = $HOME.'/.typing_tests'
 
 " Sorting (see ~/.vim/keymaps for the function that this modifies)
-let g:sort_lines_default_args = 'i'
+" let g:sort_lines_default_args = 'i'
 
 " Vimux config
 let g:vimuxHeight = "10"

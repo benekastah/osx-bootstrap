@@ -48,7 +48,6 @@ nnoremap wl :call Wincmd('l')<CR>
 " Buffer navigatior
 noremap <C-l> :bn<CR>
 noremap <C-h> :bp<CR>
-noremap <C-j> :b#<CR>
 
 " Merge helpers
 " Find the next merge section
@@ -283,3 +282,7 @@ endfunction
 nnoremap <leader>gt :call g:GenTags()<CR>
 nnoremap <leader>gts :call g:GenTags(0)<CR>
 nnoremap <leader>gtv :call g:GenTags(1)<CR>
+
+" Refactoring helpers
+nnoremap <leader>" :%s/"\(.\{-}\)"/\="'".substitute(submatch(1), "'", '"', 'g')."'"/gc<CR>
+nnoremap <leader>. :%s/\['\(\w\+\)\'\]/.\1/gc<CR>:%s/\["\(\w\+\)\"\]/.\1/gc<CR>

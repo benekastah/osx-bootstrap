@@ -44,7 +44,9 @@ Bundle "tomtom/tcomment_vim.git"
 Bundle "rking/ag.vim"
 Bundle "scrooloose/syntastic.git"
 Bundle "skwp/vim-colors-solarized"
-Bundle "SirVer/ultisnips"
+if !has('neovim')
+    Bundle "SirVer/ultisnips"
+endif
 Bundle "kien/ctrlp.vim"
 
 " Trying before buying...
@@ -53,6 +55,10 @@ Bundle "wting/rust.vim"
 " A plugin which makes swapping of text in Vim easier
 Bundle "kurkale6ka/vim-swap"
 Bundle "benmills/vimux"
+Bundle "pangloss/vim-javascript"
+Bundle "Shougo/unite.vim"
+" Adventure game
+Bundle "katono/rogue.vim"
 
 call vundle#end()
 "Filetype plugin indent on is required by vundle
