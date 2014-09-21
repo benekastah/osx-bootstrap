@@ -112,6 +112,7 @@ set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.pyc,*.pyo,*.pyd,*.egg-info/**,*.egg,develop-eggs/**,__pycache__/**,.Python
+set wildignore+=.hsenv,.virtualenv,*.chs.h,*.chi,*.hi,*.cabal-sandbox,cabal.sandbox.config,cabal.config,*.dyn_hi,*.dyn_o,*.p_hi,*.p_o
 
 " ================ scrolling ========================
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins

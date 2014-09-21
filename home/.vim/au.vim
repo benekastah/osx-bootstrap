@@ -34,6 +34,8 @@ augroup paulh
     autocmd Filetype rust set makeprg=cargo\ build
 
     autocmd Filetype haskell set makeprg=~/Library/Haskell/bin/cabal\ build
+    " See http://hackage.haskell.org/package/hothasktags
+    autocmd Filetype haskell set iskeyword=a-z,A-Z,_,.,39
 
     autocmd Filetype python :let b:indentNoEndDelimiter = 1
 
