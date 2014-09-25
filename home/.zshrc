@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # I like to have a ~/local/bin too
-export PATH="$HOME/local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/local/bin:$PATH"
 
 # tmux
 # Configure this before the plugins
