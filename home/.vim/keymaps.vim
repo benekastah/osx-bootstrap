@@ -286,3 +286,15 @@ nnoremap <leader>gtv :call g:GenTags(1)<CR>
 " Refactoring helpers
 nnoremap <leader>" :%s/"\(.\{-}\)"/\="'".substitute(submatch(1), "'", '"', 'g')."'"/gc<CR>
 nnoremap <leader>. :%s/\['\(\w\+\)\'\]/.\1/gc<CR>:%s/\["\(\w\+\)\"\]/.\1/gc<CR>
+
+
+nnoremap <leader>pass :call VimuxPromptPassword()<CR>
+function! VimuxPromptPassword()
+    call inputsave()
+    call VimuxSendText(inputsecret("Enter password: "))
+    call inputrestore()
+    call VimuxSendKeys("Enter")
+endfunction
+
+
+nnoremap <leader>jd :YcmCompleter GoTo<CR>

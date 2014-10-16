@@ -160,7 +160,7 @@ endfunction
 call Statusline()
 
 " ================ Tern ========================
-let tern#command = ['tern', '--no-port-file']
+" let tern#command = ['tern', '--no-port-file']
 
 " D
 let g:syntastic_d_compiler = "$HOME/bin/dub-syntastic"
