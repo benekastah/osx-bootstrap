@@ -21,9 +21,10 @@ set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set ruler
-set smartcase
 set nrformats=octal,hex,alpha
-set cryptmethod=blowfish
+if !has('neovim')
+    set cryptmethod=blowfish
+endif
 set cursorline
 set tags=./tags;/,tags;/
 set hlsearch
@@ -90,7 +91,7 @@ set linebreak    "Wrap lines at convenient points
 
 " ================ Folds ============================
 
-set foldmethod=indent   "fold based on indent
+set foldmethod=manual
 set foldnestmax=3       "deepest fold is 3 levels
 set nofoldenable        "dont fold by default
 
@@ -115,16 +116,29 @@ set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 
 " ================ Syntastic ========================
 " let g:syntastic_mode_map = {'mode': 'passive'}
-let g:syntastic_python_checkers = ['pylint', 'pep8']
+let g:syntastic_python_checkers = ['pep8']
 " let g:syntastic_python_pylint_exe = 'pylint-vim'
 " let g:syntastic_python_pep8_exe = 'pep8-vim'
-let g:syntastic_python_pylint_exe = 'pylint'
-let g:syntastic_python_pep8_exe = 'pep8'
+" let g:syntastic_python_pylint_exe = 'pylint'
+" let g:syntastic_python_pep8_exe = 'pep8'
 let g:syntastic_javascript_checkers = ['jshint', 'eslint']
 let g:syntastic_c_checkers = ['make']
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_error_symbol = 'E>'
+
+" Tortoise Typing
+let g:tortoiseTypingKeyLog = $HOME.'/.typing_keys'
+let g:tortoiseTypingResultLog = $HOME.'/.typing_tests'
+
+" Sorting (see ~/.vim/keymaps for the function that this modifies)
+" let g:sort_lines_default_args = 'i'
+
+" Vimux config
+let g:vimuxHeight = "10"
+
+" RunSqlQuery config
+let g:sqlCommand = 'psql'
 
 " ================ Statusline ========================
 function! Statusline()
@@ -146,7 +160,7 @@ endfunction
 call Statusline()
 
 " ================ Tern ========================
-let tern#command = ['tern', '--no-port-file']
+" let tern#command = ['tern', '--no-port-file']
 
 " D
 let g:syntastic_d_compiler = "$HOME/bin/dub-syntastic"
@@ -200,6 +214,10 @@ function! AgLiteral(term)
     call ag#Ag('grep', '-Q '.term)
 endfunction
 command! -nargs=* Agq call AgLiteral(<q-args>)
+
+
+" Allows writing to readonly files
+command! -bang Write exe 'w !' . ('<bang>' ==# '!' ? 'sudo ' : '') . 'tee %'
 
 
 if filereadable(expand("~/.vim/keymaps.vim"))

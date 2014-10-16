@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # I like to have a ~/local/bin too
-export PATH="$HOME/local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/local/bin:$PATH"
 
 # tmux
 # Configure this before the plugins
@@ -125,12 +125,13 @@ alias irssi=" \
     tmux split-window -h \"perl ~/.irssi/scripts/adv_windowlist.pl\" && \
     tmux swap-pane -D && \
     tmux resize-pane -t 1 -L -x 10 && \
-    RESIZE_PID=\$! && \
     tmux select-pane -R && \
     \irssi && \
     tmux kill-pane -t 1"
 
 alias ssh-client-ip="echo \$SSH_CLIENT | awk '{print \$1}'"
+
+alias info="\info --vi-keys"
 
 mdcd() {
     DIR="${@: -1}"
@@ -192,4 +193,3 @@ HOSTZSHRC="$HOME/.$HOST.zsh"
 if [ -e "$HOSTZSHRC" ]; then
     source "$HOSTZSHRC"
 fi
-

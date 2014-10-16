@@ -21,37 +21,46 @@ Bundle 'vim-misc'
 
 Bundle 'xolox/vim-session'
 Bundle "airblade/vim-gitgutter"
-Bundle 'lukerandall/haskellmode-vim'
 Bundle 'moll/vim-bbye'
+Bundle "tpope/vim-fugitive"
 
-" Html, Xml, Css, Markdown, Yaml...
+" General text editing improvements...
+Bundle "tomtom/tcomment_vim.git"
+Bundle "rking/ag.vim"
+Bundle "scrooloose/syntastic.git"
+Bundle "skwp/vim-colors-solarized"
+Bundle "kien/ctrlp.vim"
+if !has('neovim')
+    Bundle "SirVer/ultisnips"
+endif
+
+" Language/syntax bundles
+Bundle "jdonaldson/vaxe"
+Bundle "wting/rust.vim"
+Bundle "pangloss/vim-javascript"
 Bundle "kchmck/vim-coffee-script"
 " Provides ghmarkdown (github-flavored markdown)
 Bundle "jtratner/vim-flavored-markdown.git"
 " Faster yaml syntax files
 Bundle "stephpy/vim-yaml"
 Bundle "mustache/vim-mustache-handlebars"
-
-" Scala
+Bundle 'lukerandall/haskellmode-vim'
 Bundle "derekwyatt/vim-scala"
-Bundle "tpope/vim-fugitive"
 " syntax, indent, and filetype plugin files for git, gitcommit, gitconfig,
 " gitrebase, and gitsendemail.
 Bundle "tpope/vim-git"
 
-" " General text editing improvements...
-Bundle "tomtom/tcomment_vim.git"
-Bundle "rking/ag.vim"
-Bundle "scrooloose/syntastic.git"
-Bundle "skwp/vim-colors-solarized"
-Bundle "SirVer/ultisnips"
-Bundle "kien/ctrlp.vim"
+" Shits and giggles
+" Adventure game
+Bundle "katono/rogue.vim"
 
 " Trying before buying...
-Bundle "jdonaldson/vaxe"
-Bundle "wting/rust.vim"
 " A plugin which makes swapping of text in Vim easier
 Bundle "kurkale6ka/vim-swap"
+Bundle "benmills/vimux"
+" Dispatch may replace vimux
+Bundle "tpope/vim-dispatch"
+Bundle "Valloric/YouCompleteMe"
 
 call vundle#end()
 "Filetype plugin indent on is required by vundle

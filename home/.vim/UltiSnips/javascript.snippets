@@ -35,9 +35,7 @@ endsnippet
 
 snippet subclass "make a subclass"
 function ${1:ClassName}() {
-	this.SuperClass = $2;
-	this.super_ = $2.prototype;
-	this.SuperClass.apply(this, arguments);
+	$2.apply(this, arguments);
 }
 
 $1.prototype = Object.create(${2:ParentClass}.prototype);
@@ -46,6 +44,11 @@ $1.prototype.constructor = $1;
 (function () {
 	${0:// Method definitions here}
 }).call($1.prototype);
+endsnippet
+
+snippet extends "extend an existing class with a superclass"
+${1:ClassName}.prototype = Object.create(${2:ParentClass}.prototype);
+$1.prototype.constructor = $1;
 endsnippet
 
 snippet function "make a function"

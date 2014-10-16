@@ -30,4 +30,22 @@ augroup paulh
     autocmd BufNewFile,BufRead,BufFilePost *.jison set ft=yacc
 
     autocmd Filetype go set makeprg=go\ build
+
+    autocmd Filetype rust set makeprg=cargo\ build
+
+    autocmd Filetype haskell set makeprg=~/Library/Haskell/bin/cabal\ build
+
+    autocmd Filetype python :let b:indentNoEndDelimiter = 1
+    autocmd Filetype python let &makeprg='pylint -f text --msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg}" -r n'
+    " Error format for pylint
+    set errorformat+=%f:%l:%c:%t:\ %m
+    set errorformat+=%f:%l:\ %m
+    set errorformat+=%f:(%l):\ %m
+
+    autocmd VimLeave * :VimuxCloseRunner
+
+    " YCM
+    autocmd FileType * let g:ycm_auto_trigger = 0
+    autocmd FileType c,cpp,objc,objcpp,python,cs let g:ycm_auto_trigger = 1
+    autocmd Filetype c,cpp,objc,objcpp,python,cs nnoremap <buffer> <C-]> :YcmCompleter GoTo<CR>
 augroup END
