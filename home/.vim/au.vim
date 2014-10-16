@@ -12,12 +12,12 @@ augroup paulh
     let cFileTypes = ['c', 'c++', 'objc']
     autocmd BufNewFile,BufRead,BufFilePost * if index(cFileTypes, &ft) < 0 | set cindent | endif
 
-    let textFileTypes = ['text', 'html', 'markdown']
+    autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown
+
+    let textFileTypes = ['text', 'html', 'markdown', 'ghmarkdown']
     autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal spell spelllang=en_us | endif
 
     autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal wrap | endif
-
-    autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown
 
     autocmd BufNewFile,BufRead,BufFilePost *.json :set ft=json
     autocmd FileType json runtime! syntax/javascript.vim

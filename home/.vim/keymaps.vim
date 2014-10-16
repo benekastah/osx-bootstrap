@@ -80,3 +80,7 @@ nmap <leader>/ :let @/ = ""<CR>
 
 nmap <leader>rg :EditRelatedFilesGit<CR>
 nmap <leader>rs :EditRelatedFilesName<CR>
+
+" Errors
+nmap <leader>ck :cnext<CR>
+nmap <leader>cj :cprev<CR>
