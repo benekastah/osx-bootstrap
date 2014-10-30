@@ -16,15 +16,23 @@ call vundle#begin()
 " let Vundle manage Vundle (required)
 Bundle "gmarik/Vundle.vim"
 
+
+" ========================================
 " Vim utilities that may be used by other plugins
+" ========================================
 Bundle 'vim-misc'
 
+" ========================================
+" Added functionality
+" ========================================
 Bundle 'xolox/vim-session'
 Bundle "airblade/vim-gitgutter"
 Bundle 'moll/vim-bbye'
 Bundle "tpope/vim-fugitive"
 
+" ========================================
 " General text editing improvements...
+" ========================================
 Bundle "tomtom/tcomment_vim.git"
 Bundle "rking/ag.vim"
 Bundle "scrooloose/syntastic.git"
@@ -34,7 +42,9 @@ if !has('neovim')
     Bundle "SirVer/ultisnips"
 endif
 
+" ========================================
 " Language/syntax bundles
+" ========================================
 Bundle "jdonaldson/vaxe"
 Bundle "wting/rust.vim"
 Bundle "pangloss/vim-javascript"
@@ -50,17 +60,25 @@ Bundle "derekwyatt/vim-scala"
 " gitrebase, and gitsendemail.
 Bundle "tpope/vim-git"
 
+" ========================================
+" Trying before buying...
+" ========================================
+" A plugin which makes swapping of text in Vim easier
+Bundle "kurkale6ka/vim-swap"
+
+" Bundle "benmills/vimux"
+" Dispatch may replace vimux
+Bundle "tpope/vim-dispatch"
+
+Bundle "Valloric/YouCompleteMe"
+Bundle "haya14busa/incsearch.vim"
+
+" ========================================
 " Shits and giggles
+" ========================================
 " Adventure game
 Bundle "katono/rogue.vim"
 
-" Trying before buying...
-" A plugin which makes swapping of text in Vim easier
-Bundle "kurkale6ka/vim-swap"
-Bundle "benmills/vimux"
-" Dispatch may replace vimux
-Bundle "tpope/vim-dispatch"
-Bundle "Valloric/YouCompleteMe"
 
 call vundle#end()
 "Filetype plugin indent on is required by vundle

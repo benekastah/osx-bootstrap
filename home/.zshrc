@@ -9,7 +9,10 @@ export PATH="$HOME/bin:$HOME/local/bin:$PATH"
 
 # tmux
 # Configure this before the plugins
-alias tmux="TERM=screen-256color-bce tmux -2"
+# Wed Oct 22 14:39:20 PDT 2014 - I don't think this is right. It seems to be
+# the thing causing my problems when using vim on tmux (characters will be mis-
+# printed).
+# alias tmux="TERM=screen-256color-bce \tmux -2"
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -183,6 +186,12 @@ tmux-colors() {
         printf "\x1b[38;5;${i}mcolour${i}$END"
     done
 }
+
+if [ -z "`which pbcopy`" ]; then
+    pbcopy() {
+        cat | nc localhost 5097
+    }
+fi
 
 if which keychain > /dev/null 2>&1; then
     keychain $HOME/.ssh/id_rsa_bitbucket > /dev/null 2>&1
