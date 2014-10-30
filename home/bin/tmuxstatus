@@ -14,6 +14,7 @@ If no args are provided, a status message will be printed.
 
 -a,--append msg             Append a message (instead of reading). To take
                             message from stdin, specify '--'.
+-p,--print-append           Not really sure to be honest :(
 -n                          The maximum number of messages to show at once
                             (default: 1)
 -j,--join-with              How to join multiple messages together.
@@ -21,6 +22,10 @@ If no args are provided, a status message will be printed.
 --age                       Max age of status messages to show (default: 60)
 --pre                       Prepend to output if any
 --post                      Append to output if any
+-c,--command                Run this command and append a message when it
+                            completes.
+-T,--title                  The title for the message that is appended when a
+                            command completes.
 -t,--truncate-to            Max length of status message (default: 65)
 -h,--help                   Show this message and exit"
 

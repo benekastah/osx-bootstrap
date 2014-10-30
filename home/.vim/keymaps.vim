@@ -1,10 +1,4 @@
 
-nnoremap <leader>w :w<CR>
-nnoremap <leader>qq :q<CR>
-nnoremap <leader>wq :wq<CR>
-nnoremap <leader>qqa :qa<CR>
-nnoremap <leader>wqa :wqa<CR>
-
 " Window navigation
 function! Wincmd(cmd)
     if exists('w:winmax')
@@ -46,13 +40,16 @@ nnoremap wk :call Wincmd('k')<CR>
 nnoremap wl :call Wincmd('l')<CR>
 
 " Buffer navigatior
-noremap <C-l> :bn<CR>
-noremap <C-h> :bp<CR>
+noremap <Left> :bn<CR>
+noremap <Right> :bp<CR>
 
 " Merge helpers
 " Find the next merge section
 nnoremap <leader>ml :exe "/<<<<<<<\\\|=======\\\|>>>>>>>"<CR>
 nnoremap <leader>mh :exe "?<<<<<<<\\\|=======\\\|>>>>>>>"<CR>
+" In vimdiff I often want to write only the current buffer, and quit all
+nnoremap <leader>wqa :w<CR>:qa<CR>
+nnoremap <leader>wqa! :w!<CR>:qa!<CR>
 
 vnoremap * :<C-u>exe '/'.GetVisualSelection()<CR>
 vnoremap <leader>* :<C-u>call AgLiteral(GetVisualSelection())<CR>
@@ -70,23 +67,19 @@ nnoremap <leader>rg :EditRelatedFilesGit<CR>
 nnoremap <leader>rs :EditRelatedFilesName<CR>
 
 " Errors
-nnoremap <leader>ck :cnext<CR>
-nnoremap <leader>cj :cprev<CR>
+nnoremap <leader>cj :cnext<CR>
+nnoremap <leader>ck :cprev<CR>
 
 " Sort
 function! SortLines(type, ...)
     let visual_mode = a:0
-    let sort_line_args = ""
-    if exists('g:sort_lines_default_args')
-        let sort_line_args = g:sort_lines_default_args
-    endif
     let cmd = ""
     if visual_mode
         let cmd .= "'<,'>"
     else
         let cmd .= "'[,']"
     endif
-    let cmd .= "sort " . sort_line_args
+    let cmd .= "sort " . get(g:, 'sort_lines_default_args', '')
     exe cmd
 endfunction
 
@@ -298,3 +291,72 @@ endfunction
 
 
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
+
+
+" Better incsearch
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+
+" Solarized toggle light/dark
+function! ToggleBGPersist()
+    let comment = 'Automatically added by ToggleBGPersist'
+    :ToggleBG
+    if len(get(g:, 'project_local_vimrc', ''))
+        let cmd = 'grep -q ' . shellescape('let g:last_toggled_background\b') . ' ' . shellescape(g:project_local_vimrc) . ' &&' .
+                    \ " sed -i'' " . shellescape('s/let g:last_toggled_background\b.*/let g:last_toggled_background = ''' . &background . '''/') .
+                    \ ' ' . shellescape(g:project_local_vimrc) . ' ||' .
+                    \ ' sed -i"" ' . shellescape("$a\n\" " . comment . "\nlet g:last_toggled_background = '" . &background . "'\n") .
+                    \ ' ' . shellescape(g:project_local_vimrc)
+        " call system('cat > cmd.sh', cmd)
+        call system(cmd)
+    endif
+endfunction
+
+nnoremap <leader>t :call ToggleBGPersist()<CR>
+" Ensure the autoload file gets loaded
+call togglebg#map("<F5>")
+
+
+" ======================= HTML/XML Tag operations =============================
+" Change tagname
+function! ChangeTagName()
+    call inputsave()
+    let tag = input("New tagname: ")
+    call inputrestore()
+    exe 'normal! vathciw' . tag
+    exe 'normal! gvolciw' . tag . ''
+endfunction
+nnoremap <leader>ct :call ChangeTagName()<CR>
+
+" Remove tag (leaving inner contents in place)
+nnoremap <leader>rt ditvatp
+
+function! WrapTag()
+    call inputsave()
+    let tag = input("Tagname: ")
+    call inputrestore()
+    let break = tag =~ ' $'
+    if break
+        let tag = substitute(tag, '\s\+$', '', '')
+    endif
+    let cmd = 'normal! cat<' . tag . '>'
+    if break
+        let cmd .= ''
+    endif
+    let cmd .= 'gpa'
+    if break
+        let cmd .= ''
+    endif
+    let cmd .= '</' . tag . '>'
+    if break
+        let cmd .= 'vat='
+    endif
+    exe cmd
+endfunction
+nnoremap <leader>wt :call WrapTag()<CR>
+
+
+" ======================= Refactor helpers =============================
+command! TODO :exe '/\<\(TODO\|FIXME\|XXX\)\>' | Ag '\b(TODO|FIXME|XXX)\b'

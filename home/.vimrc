@@ -54,7 +54,6 @@ endif
 set background=dark
 set t_Co=256
 colorscheme solarized
-call togglebg#map("<F5>")
 
 " ================ Turn Off Swap Files ==============
 
@@ -116,7 +115,7 @@ set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 
 " ================ Syntastic ========================
 " let g:syntastic_mode_map = {'mode': 'passive'}
-let g:syntastic_python_checkers = ['pep8']
+let g:syntastic_python_checkers = ['pep8', 'pylint']
 " let g:syntastic_python_pylint_exe = 'pylint-vim'
 " let g:syntastic_python_pep8_exe = 'pep8-vim'
 " let g:syntastic_python_pylint_exe = 'pylint'
@@ -232,11 +231,16 @@ if filereadable(expand("~/.vim/au.vim"))
     source ~/.vim/au.vim
 endif
 
-if filereadable(expand("~/.vim/ranger.vim"))
-    source ~/.vim/ranger.vim
-endif
+" if filereadable(expand("~/.vim/ranger.vim"))
+"     source ~/.vim/ranger.vim
+" endif
 
 let g:project_local_vimrc = FindFileBackward('.project.vim')
 if filereadable(g:project_local_vimrc)
     execute 'source ' . g:project_local_vimrc
+    let g:last_toggled_background = get(g:, 'last_toggled_background', '')
+    " Toggle back to the last toggled version
+    if len(g:last_toggled_background) && g:last_toggled_background != &background
+        :ToggleBG
+    endif
 endif

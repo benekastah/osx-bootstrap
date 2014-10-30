@@ -66,7 +66,7 @@ Bundle "tpope/vim-git"
 " A plugin which makes swapping of text in Vim easier
 Bundle "kurkale6ka/vim-swap"
 
-Bundle "benmills/vimux"
+" Bundle "benmills/vimux"
 " Dispatch may replace vimux
 Bundle "tpope/vim-dispatch"
 
