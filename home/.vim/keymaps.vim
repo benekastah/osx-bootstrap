@@ -56,7 +56,21 @@ vnoremap <leader>* :<C-u>call AgLiteral(GetVisualSelection())<CR>
 nnoremap <leader>* *N:call ag#AgFromSearch('grep', '')<CR>
 
 " Syntastic
-nnoremap <leader>e :SyntasticCheck<CR>
+function! SyntasticFullCheck()
+    let checkers_full_name =  'syntastic_' . &ft . '_checkers_full'
+    let old_checkers = -1
+    if exists('g:' . checkers_full_name)
+        let old_checkers = get(b:, 'syntastic_checkers')
+        let b:syntastic_checkers = get(g:, checkers_full_name)
+    endif
+    SyntasticCheck
+    if old_checkers && old_checkers != -1
+        let b:syntastic_checkers = old_checkers
+    elseif old_checkers != -1
+        unlet b:syntastic_checkers
+    endif
+endfunction
+nnoremap <leader>e :call SyntasticFullCheck()<CR>
 nnoremap <leader>eh :lnext<CR>
 nnoremap <leader>el :lprev<CR>
 
@@ -207,24 +221,24 @@ function! <SID>IndTxtObj(inner)
     normal! 0
 endfunction
 
-" Vimux
-nnoremap <leader>vl :VimuxRunLastCommand<CR>
-nnoremap <leader>vc :VimuxRunCommand 'clear'<CR>
-nnoremap <Leader>vp :VimuxPromptCommand<CR>
-nnoremap <Leader>vi :VimuxInspectRunner<CR>
-nnoremap <Leader>vq :VimuxCloseRunner<CR>
-nnoremap <Leader>vx :VimuxInterruptRunner<CR>
-nnoremap <Leader>vz :call VimuxZoomRunner()<CR>
-nnoremap <leader>pl :call PylintFile()<CR>
-
-function! PylintFile(...)
-    if a:0 && len(a:0)
-        let file = a:file
-    else
-        let file = '%'
-    endif
-    :VimuxRunCommand 'pylint '.expand(file)
-endfunction
+" " Vimux
+" nnoremap <leader>vl :VimuxRunLastCommand<CR>
+" nnoremap <leader>vc :VimuxRunCommand 'clear'<CR>
+" nnoremap <Leader>vp :VimuxPromptCommand<CR>
+" nnoremap <Leader>vi :VimuxInspectRunner<CR>
+" nnoremap <Leader>vq :VimuxCloseRunner<CR>
+" nnoremap <Leader>vx :VimuxInterruptRunner<CR>
+" nnoremap <Leader>vz :call VimuxZoomRunner()<CR>
+" nnoremap <leader>pl :call PylintFile()<CR>
+"
+" function! PylintFile(...)
+"     if a:0 && len(a:0)
+"         let file = a:file
+"     else
+"         let file = '%'
+"     endif
+"     :VimuxRunCommand 'pylint '.expand(file)
+" endfunction
 
 " Sql tester
 nnoremap <leader>sq :call RunSqlQuery()<CR>
@@ -238,9 +252,16 @@ import time
 import vim
 
 def run_query(sqlFile):
-    sqlCmd = vim.eval('b:sqlCommand') if int(vim.eval('exists("b:sqlCommand")')) else vim.eval('g:sqlCommand')
-    vim.command('VimuxRunCommand "cat {} | {} | less"'.
-        format(sqlFile, sqlCmd))
+    cmd = '{} < {}'.format(vim.eval('get(b:, "sqlCommand", g:sqlCommand)'),
+                           sqlFile)
+    if int(vim.eval('get(b:, "sqlUseDispatch", '
+                    'get(g:, "sqlUseDispatch", exists(":Dispatch")))')):
+        vim.command('Dispatch {}'.format(cmd))
+    else:
+        makeprg = vim.eval('&makeprg')
+        vim.command('let &l:makeprg="{}"'.format(cmd))
+        vim.command('make | copen')
+        vim.command('let &l:makeprg="{}"'.format(makeprg))
 
 fname = vim.eval('expand("%")')
 if not os.path.exists(fname):
@@ -258,36 +279,28 @@ endfunction
 
 " Gen tags
 let g:gentag_command = 'ctags -R .'
-let g:gentag_vimux = exists(':VimuxRunCommand')
-function! g:GenTags(...)
-    if a:0
-        let vimux = a:1
-    else
-        let vimux = g:gentag_vimux
-    endif
-    if vimux
-        exe ':VimuxRunCommand '.shellescape(g:gentag_command)
+function! g:GenTags()
+    if exists(':Start')
+        exe ':Start! '.shellescape(g:gentag_command)
     else
         exe '!'.g:gentag_command
     endif
 endfunction
 
 nnoremap <leader>gt :call g:GenTags()<CR>
-nnoremap <leader>gts :call g:GenTags(0)<CR>
-nnoremap <leader>gtv :call g:GenTags(1)<CR>
 
 " Refactoring helpers
 nnoremap <leader>" :%s/"\(.\{-}\)"/\="'".substitute(submatch(1), "'", '"', 'g')."'"/gc<CR>
 nnoremap <leader>. :%s/\['\(\w\+\)\'\]/.\1/gc<CR>:%s/\["\(\w\+\)\"\]/.\1/gc<CR>
 
 
-nnoremap <leader>pass :call VimuxPromptPassword()<CR>
-function! VimuxPromptPassword()
-    call inputsave()
-    call VimuxSendText(inputsecret("Enter password: "))
-    call inputrestore()
-    call VimuxSendKeys("Enter")
-endfunction
+" nnoremap <leader>pass :call VimuxPromptPassword()<CR>
+" function! VimuxPromptPassword()
+"     call inputsave()
+"     call VimuxSendText(inputsecret("Enter password: "))
+"     call inputrestore()
+"     call VimuxSendKeys("Enter")
+" endfunction
 
 
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
@@ -360,3 +373,114 @@ nnoremap <leader>wt :call WrapTag()<CR>
 
 " ======================= Refactor helpers =============================
 command! TODO :exe '/\<\(TODO\|FIXME\|XXX\)\>' | Ag '\b(TODO|FIXME|XXX)\b'
+
+
+" ======================= Filter text with shell command =============================
+function! TextFilter(type, Cmd, ...)
+    let sel_save = &selection
+    let &selection = "inclusive"
+    let reg_save = @c
+
+    if a:0 && a:1  " Invoked from Visual mode, use '< and '> marks.
+        let visual_select = '`<' . a:type . '`>'
+    elseif a:type == 'line'
+        let visual_select = "'[V']"
+    elseif a:type == 'block'
+        let visual_select = '`[\<C-V>`]'
+    else
+        let visual_select = '`[v`]'
+    endif
+
+    exe 'normal! ' . visual_select . '"cy'
+    let @c = substitute(a:Cmd(@c), '\_s\+$', '', 'g')
+    exe 'normal! ' . visual_select . '"cp'
+
+    let @c = reg_save
+    let &selection = sel_save
+endfunction
+
+function! CommandFilter(type, ...)
+    if a:0 >= 2
+        let cmd = a:2
+    else
+        call inputsave()
+        let cmd = input("Command: ")
+        call inputrestore()
+    endif
+
+    function! Cmd(text)
+        return system(cmd, a:text)
+    endfunction
+
+    TextFilter(a:type, function('Cmd'), a:0 && a:1)
+endfunction
+nnoremap <leader>f :set opfunc=CommandFilter<CR>g@
+vnoremap <leader>f :<C-U>call CommandFilter(visualmode(), 1)<CR>
+
+
+" ======================= Calculator Macro =============================
+function! CalculateBcCommand(text)
+    if !len(a:text)
+        return '0'
+    endif
+    let scale = get(b:, 'calculate_scale', get(g:, 'calculate_scale'))
+    if scale
+        let cmd = "sed 's/.\\+/scale=" . scale . "; &/' | bc -l"
+    else
+        let cmd = 'bc -l'
+    endif
+    " For some reason passing text as second argument gives a syntax error
+    " when used with bc.
+    return system('echo ' . shellescape(a:text) . ' | ' . cmd)
+endfunction
+
+function! CalculatePythonCommand(text)
+    if !len(a:text)
+        return '0'
+    endif
+    let scale = get(b:, 'calculate_scale', get(g:, 'calculate_scale'))
+    if scale
+        let val = '"{:.' . scale . 'f}.format(&)'
+    else
+        let val = '&'
+    endif
+    let assgn = split(substitute(a:text, '\(\r\|\n\)\+$', '', ''), '\s*=\s*')
+    let text = assgn[-1]
+    if len(assgn) > 1
+        let vars = join(assgn[:-2], ' = ') . ' = '
+    else
+        let vars = ''
+    endif
+    let text = 'print("{}{}".format("' . vars . '", ' . text . '))'
+    return system('python', text)
+endfunction
+
+function! CalculateJavascriptCommand(text)
+    if !len(a:text)
+        return '0'
+    endif
+    let scale = get(b:, 'calculate_scale', get(g:, 'calculate_scale'))
+    if scale
+        let val = '(\1).toFixed(' . scale . ')'
+    else
+        let val = '\1'
+    endif
+    return system("sed " . shellescape('s/\([^;]\+\)\(;\?\)/require("util").print(' . val . ', "\2")/') . " | node", a:text)
+endfunction
+
+function! Calculate(type, ...)
+    let Cmd = get(b:, 'CalculateCommand',
+                \ get(g:, 'CalculateCommand', function('CalculateBcCommand')))
+    if type(Cmd) == type(function('tr'))
+        call TextFilter(a:type, Cmd, a:0 && a:1)
+    else
+        call CommandFilter(a:type, a:0, Cmd)
+    endif
+endfunction
+nnoremap <leader>C :set opfunc=Calculate<CR>g@
+vnoremap <leader>C :<C-U>call Calculate(visualmode(), 1)<CR>
+
+" This command intentionally ended with a space. Makes it easy to set the
+" scale for a given file. Wrap in exe so automatic trailing whitespace removal
+" won't mess this up.
+exe 'nnoremap <leader>sc :let b:calculate_scale = '

@@ -187,12 +187,6 @@ tmux-colors() {
     done
 }
 
-if [ -z "`which pbcopy`" ]; then
-    pbcopy() {
-        cat | nc localhost 5097
-    }
-fi
-
 if which keychain > /dev/null 2>&1; then
     keychain $HOME/.ssh/id_rsa_bitbucket > /dev/null 2>&1
     source $HOME/.keychain/$HOST-sh

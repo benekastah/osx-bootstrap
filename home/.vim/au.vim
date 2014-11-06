@@ -10,7 +10,7 @@ augroup paulh
 
     " Clean up smartindent behavior for non-c files
     let cFileTypes = ['c', 'c++', 'objc']
-    autocmd BufNewFile,BufRead,BufFilePost * if index(cFileTypes, &ft) < 0 | set cindent | endif
+    autocmd BufNewFile,BufRead,BufFilePost * if index(cFileTypes, &ft) < 0 | setlocal cindent | endif
 
     autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown
 
@@ -29,24 +29,30 @@ augroup paulh
 
     autocmd BufNewFile,BufRead,BufFilePost *.jison set ft=yacc
 
-    autocmd Filetype go set makeprg=go\ build
+    autocmd Filetype go setlocal makeprg=go\ build
 
-    autocmd Filetype rust set makeprg=cargo\ build
+    autocmd Filetype rust setlocal makeprg=cargo\ build
 
-    autocmd Filetype haskell set makeprg=~/Library/Haskell/bin/cabal\ build
+    autocmd Filetype haskell setlocal makeprg=~/Library/Haskell/bin/cabal\ build
 
     autocmd Filetype python let b:indentNoEndDelimiter = 1
     " autocmd Filetype python call ChecksrvStart() | call ChecksrvSyntastic(&ft, 'pylint', '')
     " For vim-dispatch
-    autocmd Filetype python let &makeprg='pylint -f text --msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg}" -r n'
-    " Error format for pylint
-    set errorformat+=%f:%l:%c:%t:\ %m
-    set errorformat+=%f:%l:\ %m
-    set errorformat+=%f:(%l):\ %m
+    autocmd Filetype python let &l:makeprg='pylint -f text --msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg}" -r n' |
+                \ setlocal errorformat=%f:%l:%c:%t:\ %m |
+                \ setlocal errorformat+=%f:%l:\ %m |
+                \ setlocal errorformat+=%f:(%l):\ %m
 
-    autocmd VimLeave * :VimuxCloseRunner
+    autocmd Filetype python let b:CalculateCommand=function('CalculatePythonCommand')
+    autocmd Filetype javascript let b:CalculateCommand=function('CalculateJavascriptCommand')
+    autocmd Filetype javascript setlocal cinkeys=0{,0},0),:,!^F,o,O,e
+
+    autocmd VimLeave * if exists(':VimuxCloseRunner') | VimuxCloseRunner | endif
 
     " YCM
     autocmd FileType * let g:ycm_auto_trigger = 0
     autocmd FileType c,cpp,objc,objcpp,python,cs let g:ycm_auto_trigger = 1
+
+    autocmd FileType vim setlocal keywordprg=:help
+    autocmd FileType help noremap <buffer> q :q<CR>
 augroup END

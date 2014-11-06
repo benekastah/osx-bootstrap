@@ -22,25 +22,34 @@ set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set ruler
 set nrformats=octal,hex,alpha
-if !has('neovim')
+if !has('nvim')
     set cryptmethod=blowfish
 endif
 set cursorline
 set tags=./tags;/,tags;/
 set hlsearch
 
-" This makes vim act like all other editors, buffers can
-" exist in the background without being in a window.
+" Change cursor style when entering INSERT mode (works in tmux!)
+" Thanks to http://vimrcfu.com/snippet/15
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+" This makes vim act like all other editors, buffers can exist in the
+" background without being in a window.
 " http://items.sjbach.com/319/configuring-vim-right
 set hidden
 
 "turn on syntax highlighting
 syntax on
 
-" Change leader to a comma because the backslash is too far away
-" That means all \x commands turn into ,x
-" The mapleader has to be set before vundle starts loading all 
-" the plugins.
+" Change leader to a comma because the backslash is too far away That means
+" all \x commands turn into ,x The mapleader has to be set before vundle
+" starts loading all the plugins.
 let mapleader="\<Space>"
 
 " =============== Vundle Initialization ===============
@@ -115,11 +124,8 @@ set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 
 " ================ Syntastic ========================
 " let g:syntastic_mode_map = {'mode': 'passive'}
-let g:syntastic_python_checkers = ['pep8', 'pylint']
-" let g:syntastic_python_pylint_exe = 'pylint-vim'
-" let g:syntastic_python_pep8_exe = 'pep8-vim'
-" let g:syntastic_python_pylint_exe = 'pylint'
-" let g:syntastic_python_pep8_exe = 'pep8'
+let g:syntastic_python_checkers = ['pep8', 'pyflakes']
+let g:syntastic_python_checkers_full = ['pep8', 'pyflakes', 'pylint']
 let g:syntastic_javascript_checkers = ['jshint', 'eslint']
 let g:syntastic_c_checkers = ['make']
 let g:syntastic_aggregate_errors = 1

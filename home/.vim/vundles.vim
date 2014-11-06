@@ -11,6 +11,11 @@
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim/
+
+if has('nvim')
+    runtime! python_setup.vim
+endif
+
 call vundle#begin()
 
 " let Vundle manage Vundle (required)
@@ -35,12 +40,14 @@ Bundle "tpope/vim-fugitive"
 " ========================================
 Bundle "tomtom/tcomment_vim.git"
 Bundle "rking/ag.vim"
+
 Bundle "scrooloose/syntastic.git"
+" " Working on syntastic for now
+" set rtp+=~/syntastic
+
 Bundle "skwp/vim-colors-solarized"
 Bundle "kien/ctrlp.vim"
-if !has('neovim')
-    Bundle "SirVer/ultisnips"
-endif
+Bundle "SirVer/ultisnips"
 
 " ========================================
 " Language/syntax bundles
@@ -70,7 +77,7 @@ Bundle "kurkale6ka/vim-swap"
 " Dispatch may replace vimux
 Bundle "tpope/vim-dispatch"
 
-Bundle "Valloric/YouCompleteMe"
+" Bundle "Valloric/YouCompleteMe"
 Bundle "haya14busa/incsearch.vim"
 
 " ========================================
@@ -81,5 +88,6 @@ Bundle "katono/rogue.vim"
 
 
 call vundle#end()
+
 "Filetype plugin indent on is required by vundle
 filetype plugin indent on
