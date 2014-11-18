@@ -38,10 +38,12 @@ augroup paulh
     autocmd Filetype python let b:indentNoEndDelimiter = 1
     " autocmd Filetype python call ChecksrvStart() | call ChecksrvSyntastic(&ft, 'pylint', '')
     " For vim-dispatch
-    autocmd Filetype python let &l:makeprg='pylint -f text --msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg}" -r n' |
-                \ setlocal errorformat=%f:%l:%c:%t:\ %m |
-                \ setlocal errorformat+=%f:%l:\ %m |
-                \ setlocal errorformat+=%f:(%l):\ %m
+    " autocmd Filetype python let &l:makeprg='pylint -f text --msg-template="{path}:{line}:{column}:{C}: [{symbol}] {msg}" -r n' |
+    "             \ setlocal errorformat=%f:%l:%c:%t:\ %m |
+    "             \ setlocal errorformat+=%f:%l:\ %m |
+    "             \ setlocal errorformat+=%f:(%l):\ %m
+
+    autocmd BufWritePost *.py,*.js Neomake
 
     autocmd Filetype python let b:CalculateCommand=function('CalculatePythonCommand')
     autocmd Filetype javascript let b:CalculateCommand=function('CalculateJavascriptCommand')

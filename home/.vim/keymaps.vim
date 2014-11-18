@@ -40,8 +40,8 @@ nnoremap wk :call Wincmd('k')<CR>
 nnoremap wl :call Wincmd('l')<CR>
 
 " Buffer navigatior
-noremap <Left> :bn<CR>
-noremap <Right> :bp<CR>
+nnoremap <Left> :<C-U>exe 'bp '.v:count1<CR>
+nnoremap <Right> :<C-U>exe 'bn '.v:count1<CR>
 
 " Merge helpers
 " Find the next merge section
@@ -71,8 +71,8 @@ function! SyntasticFullCheck()
     endif
 endfunction
 nnoremap <leader>e :call SyntasticFullCheck()<CR>
-nnoremap <leader>eh :lnext<CR>
-nnoremap <leader>el :lprev<CR>
+nnoremap \n :lnext<CR>
+nnoremap \p :lprev<CR>
 
 " Clear search
 nnoremap <leader>/ :let @/ = ""<CR>
@@ -81,8 +81,8 @@ nnoremap <leader>rg :EditRelatedFilesGit<CR>
 nnoremap <leader>rs :EditRelatedFilesName<CR>
 
 " Errors
-nnoremap <leader>cj :cnext<CR>
-nnoremap <leader>ck :cprev<CR>
+nnoremap <leader>n :cnext<CR>
+nnoremap <leader>p :cprev<CR>
 
 " Sort
 function! SortLines(type, ...)
@@ -100,115 +100,6 @@ endfunction
 nnoremap <leader>s :set opfunc=SortLines<CR>g@
 vnoremap <leader>s :<C-U>call SortLines(visualmode(), 1)<CR>
 
-" Indent text object. See http://vim.wikia.com/wiki/Indent_text_object
-onoremap <silent>ai :<C-U>call <SID>IndTxtObj(0)<CR>
-onoremap <silent>ii :<C-U>call <SID>IndTxtObj(1)<CR>
-vnoremap <silent>ai :<C-U>call <SID>IndTxtObj(0)<CR><Esc>gv
-vnoremap <silent>ii :<C-U>call <SID>IndTxtObj(1)<CR><Esc>gv
-
-nnoremap <leader>[ :<C-U>call <SID>GoToIndStart(1)<CR>
-onoremap <leader>] :<C-U>call <SID>GoToIndEnd(1)<CR>
-nnoremap <leader>{ :<C-U>call <SID>GoToIndStart(0)<CR>
-nnoremap <leader>} :<C-U>call <SID>GoToIndEnd(0)<CR>
-
-function! <SID>IndLevel(lineno, default)
-    if g:LineIsBlank(a:lineno)
-        return a:default
-    else
-        return indent(a:lineno)
-    endif
-endfunction
-
-function! g:NextNonBlankLine()
-    let search = @/
-    try
-        exe '/^\s*\S'
-    catch
-        normal! gg
-    endtry
-    let @/ = search
-endfunction
-
-function! g:PrevNonBlankLine()
-    let search = @/
-    try
-        exe '?^\s*\S'
-    catch
-        normal! G
-    endtry
-    let @/ = search
-endfunction
-
-function! g:LineIsBlank(...)
-    if a:0
-        let ln = a:1
-    else
-        let ln = '.'
-    endif
-    return getline(ln) =~# '^\s*$'
-endfunction
-
-function! <SID>GoToIndStart(inner)
-    let i = <SID>ContextualIndent()
-    let p = line('.')
-    while p >= 1 && <SID>IndLevel(p, i) >= i
-        normal! -
-        let p = line(".")
-        if p ==# 1
-            break
-        endif
-    endwhile
-    if a:inner && <SID>IndLevel(p, i) < i
-        normal! +
-    endif
-
-    if g:LineIsBlank()
-        call g:NextNonBlankLine()
-    endif
-
-    normal! 0
-endfunction
-
-function! <SID>GoToIndEnd(inner)
-    let i = <SID>ContextualIndent()
-    let lastline = line('$')
-    let n = line('.')
-    while n <= lastline && <SID>IndLevel(n, i) >= i
-        normal! +
-        let n = line(".")
-        if n ==# lastline
-            break
-        endif
-    endwhile
-    if (a:inner || (exists('b:indentNoEndDelimiter') && b:indentNoEndDelimiter)) && <SID>IndLevel(n, i) < i
-        normal! -
-    endif
-
-    if g:LineIsBlank()
-        call g:PrevNonBlankLine()
-    endif
-
-    normal! $
-endfunction
-
-function! <SID>ContextualIndent(...)
-    let curline = line('.')
-    let curcol = col('.')
-    if a:0
-        let ln = a:1
-    else
-        let ln = curline
-    endif
-
-    let i = indent(ln)
-    if g:LineIsBlank(ln)
-        call g:NextNonBlankLine()
-        let i = indent(line('.'))
-        call cursor(curline, curcol)
-    endif
-
-    return i
-endfunction
 
 " TODO refactor so this doesn't use visual mode?
 function! <SID>IndTxtObj(inner)
@@ -277,16 +168,45 @@ else:
 EOF
 endfunction
 
-" Gen tags
-let g:gentag_command = 'ctags -R .'
-function! g:GenTags()
-    if exists(':Start')
-        exe ':Start! '.shellescape(g:gentag_command)
+let s:shell_cmd_id = 0
+function! ShellCommand(cmd, ...)
+    let quiet = a:0 && a:1
+    if has('nvim')
+        let jobname = 'ShellCommand'.s:shell_cmd_id
+        let s:shell_cmd_id += 1
+        let job = jobstart(jobname, &shell, ['-c', a:cmd])
+        if !quiet
+            function! JobHandler()
+                if index(['stdout', 'stderr'], v:job_data[1]) >= 0
+                    echom v:job_data[2]
+                else
+                    exe 'au! '.jobname
+                endif
+            endfunction
+            exe 'augroup '.jobname.' | augroup END'
+            exe 'au '.jobname.' JobActivity '.jobname.' call JobHandler()'
+        endif
+    elseif exists(':Start')
+        if quiet
+            let prefix = ':Start!'
+        else
+            let prefix = ':Start'
+        endif
+        exe prefix.' '.a:cmd
     else
-        exe '!'.g:gentag_command
+        if quiet
+            call system(a:cmd)
+        else
+            exe '!'.a:cmd
+        endif
     endif
 endfunction
 
+" Gen tags
+let g:gentag_command = 'ctags -R .'
+function! g:GenTags()
+    call ShellCommand(g:gentag_command)
+endfunction
 nnoremap <leader>gt :call g:GenTags()<CR>
 
 " Refactoring helpers
@@ -306,22 +226,15 @@ nnoremap <leader>. :%s/\['\(\w\+\)\'\]/.\1/gc<CR>:%s/\["\(\w\+\)\"\]/.\1/gc<CR>
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
 
-" Better incsearch
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
-
 " Solarized toggle light/dark
 function! ToggleBGPersist()
-    let comment = 'Automatically added by ToggleBGPersist'
     :ToggleBG
+    let comment = 'Automatically added by ToggleBGPersist'
+    let setvar = 'let g:last_toggled_background = "' . &background . '"'
     if len(get(g:, 'project_local_vimrc', ''))
-        let cmd = 'grep -q ' . shellescape('let g:last_toggled_background\b') . ' ' . shellescape(g:project_local_vimrc) . ' &&' .
-                    \ " sed -i'' " . shellescape('s/let g:last_toggled_background\b.*/let g:last_toggled_background = ''' . &background . '''/') .
-                    \ ' ' . shellescape(g:project_local_vimrc) . ' ||' .
-                    \ ' sed -i"" ' . shellescape("$a\n\" " . comment . "\nlet g:last_toggled_background = '" . &background . "'\n") .
-                    \ ' ' . shellescape(g:project_local_vimrc)
+        let ed_cmd = 'ed -s ' . shellescape(g:project_local_vimrc)
+        let cmd = ed_cmd . " <<< $'1,$s/let g:last_toggled_background[ ]*=[ ]*.*/" . setvar . "/\\nw'" .
+                    \ ' || ' . ed_cmd . " <<< $'$a\\n\" " . comment . "\\n" . setvar . "\\n.\\nw'"
         " call system('cat > cmd.sh', cmd)
         call system(cmd)
     endif
@@ -372,7 +285,7 @@ nnoremap <leader>wt :call WrapTag()<CR>
 
 
 " ======================= Refactor helpers =============================
-command! TODO :exe '/\<\(TODO\|FIXME\|XXX\)\>' | Ag '\b(TODO|FIXME|XXX)\b'
+command! TODO :silent! exe '/\<\(TODO\|FIXME\|XXX\)\>' | Ag '\b(TODO|FIXME|XXX)\b'
 
 
 " ======================= Filter text with shell command =============================
