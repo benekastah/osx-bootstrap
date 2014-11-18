@@ -303,9 +303,6 @@ nnoremap <leader>. :%s/\['\(\w\+\)\'\]/.\1/gc<CR>:%s/\["\(\w\+\)\"\]/.\1/gc<CR>
 " endfunction
 
 
-nnoremap <leader>jd :YcmCompleter GoTo<CR>
-
-
 " Better incsearch
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
