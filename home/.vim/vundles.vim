@@ -34,6 +34,8 @@ Bundle 'xolox/vim-session'
 Bundle "airblade/vim-gitgutter"
 Bundle 'moll/vim-bbye'
 Bundle "tpope/vim-fugitive"
+" A plugin which makes swapping of text in Vim easier
+Bundle "kurkale6ka/vim-swap"
 
 " ========================================
 " General text editing improvements...
@@ -41,13 +43,18 @@ Bundle "tpope/vim-fugitive"
 Bundle "tomtom/tcomment_vim.git"
 Bundle "rking/ag.vim"
 
-Bundle "scrooloose/syntastic.git"
-" " Working on syntastic for now
-" set rtp+=~/syntastic
+" Always do neomake for now
+if len(glob("`ls -d ~/.vim/dev/neomake`"))
+    set rtp+=~/.vim/dev/neomake
+else
+    Bundle "benekastah/neomake"
+    " Bundle "scrooloose/syntastic.git"
+endif
 
 Bundle "skwp/vim-colors-solarized"
 Bundle "kien/ctrlp.vim"
 Bundle "SirVer/ultisnips"
+Bundle "michaeljsmith/vim-indent-object"
 
 " ========================================
 " Language/syntax bundles
@@ -70,15 +77,9 @@ Bundle "tpope/vim-git"
 " ========================================
 " Trying before buying...
 " ========================================
-" A plugin which makes swapping of text in Vim easier
-Bundle "kurkale6ka/vim-swap"
-
 " Bundle "benmills/vimux"
 " Dispatch may replace vimux
 Bundle "tpope/vim-dispatch"
-
-" Bundle "Valloric/YouCompleteMe"
-Bundle "haya14busa/incsearch.vim"
 
 " ========================================
 " Shits and giggles

@@ -28,6 +28,7 @@ endif
 set cursorline
 set tags=./tags;/,tags;/
 set hlsearch
+set incsearch
 
 " Change cursor style when entering INSERT mode (works in tmux!)
 " Thanks to http://vimrcfu.com/snippet/15
@@ -46,11 +47,11 @@ set hidden
 
 "turn on syntax highlighting
 syntax on
+set synmaxcol=1000
 
-" Change leader to a comma because the backslash is too far away That means
-" all \x commands turn into ,x The mapleader has to be set before vundle
-" starts loading all the plugins.
+" Leaders
 let mapleader="\<Space>"
+let maplocalleader='\'
 
 " =============== Vundle Initialization ===============
 " This loads all the plugins specified in ~/.vim/vundle.vim
@@ -59,23 +60,27 @@ if filereadable(expand("~/.vim/vundles.vim"))
     source ~/.vim/vundles.vim
 endif
 
+if filereadable(expand("~/.vim/utils.vim"))
+    source ~/.vim/utils.vim
+endif
+
 " ================ Colors ========================
 set background=dark
 set t_Co=256
 colorscheme solarized
 
-" ================ Turn Off Swap Files ==============
+" ================ Swap Files etc. ==============
 
-set noswapfile
-set nobackup
-set nowb
+silent !mkdir ~/.vim/.backup > /dev/null 2>&1
+set backupdir=~/.vim/.backup//
+set backup
 
-" ================ Persistent Undo ==================
-" Keep undo history across sessions, by storing in file.
-" Only works all the time.
+silent !mkdir ~/.vim/.swp > /dev/null 2>&1
+set directory=~/.vim/.swp//
+set swapfile
 
-silent !mkdir ~/.vim/backups > /dev/null 2>&1
-set undodir=~/.vim/backups
+silent !mkdir ~/.vim/.undo > /dev/null 2>&1
+set undodir=~/.vim/.undo//
 set undofile
 
 " ================ Indentation ======================
@@ -132,12 +137,13 @@ let g:syntastic_aggregate_errors = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_error_symbol = 'E>'
 
+" ================ Neomake ========================
+" let g:neomake_open_list = 1
+let g:neomake_python_enabled_makers = ['pylint', 'pep8']
+
 " Tortoise Typing
 let g:tortoiseTypingKeyLog = $HOME.'/.typing_keys'
 let g:tortoiseTypingResultLog = $HOME.'/.typing_tests'
-
-" Sorting (see ~/.vim/keymaps for the function that this modifies)
-" let g:sort_lines_default_args = 'i'
 
 " Vimux config
 let g:vimuxHeight = "10"
@@ -173,52 +179,6 @@ let g:syntastic_d_compiler = "$HOME/bin/dub-syntastic"
 " let g:syntastic_d_dmd_args = "build --quiet"
 
 let g:haddock_browser = ""
-
-
-" Utility functions
-function! GetVisualSelection()
-    " Why is this not a built-in Vim script function?!
-    let [lnum1, col1] = getpos("'<")[1:2]
-    let [lnum2, col2] = getpos("'>")[1:2]
-    let lines = getline(lnum1, lnum2)
-    let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
-    let lines[0] = lines[0][col1 - 1:]
-    return join(lines, "\n")
-endfunction
-command! GetVisualSelection echo GetVisualSelection()
-
-function! s:findFileBackward(path, filename)
-    let file = a:filename
-    let path = a:path
-    if !strlen(path)
-        let path = '.'
-    endif
-    while !filereadable(file)
-        if path ==# '/'
-            return ''
-        endif
-        let path = system('cd '.shellescape(path.'/..').' && echo -n $PWD')
-        let file = path.'/'.a:filename
-    endwhile
-    return file
-endfunction
-
-function! FindFileBackward(filename)
-    " Try to resolve the file from the current buffer first
-    let file = s:findFileBackward(expand('%:h'), a:filename)
-    if !strlen(file)
-        " Try to resolve the file from the cwd
-        return s:findFileBackward(getcwd(), a:filename)
-    endif
-    return file
-endfunction
-
-
-function! AgLiteral(term)
-    let term = substitute(escape(a:term, '\'), '\n', '\\n', 'g')
-    call ag#Ag('grep', '-Q '.term)
-endfunction
-command! -nargs=* Agq call AgLiteral(<q-args>)
 
 
 " Allows writing to readonly files
