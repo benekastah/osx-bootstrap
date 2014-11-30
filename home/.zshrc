@@ -5,11 +5,14 @@ ZSH=$HOME/.oh-my-zsh
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # I like to have a ~/local/bin too
-export PATH="$HOME/local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/local/bin:$PATH"
 
 # tmux
 # Configure this before the plugins
-alias tmux="TERM=screen-256color-bce tmux -2"
+# Wed Oct 22 14:39:20 PDT 2014 - I don't think this is right. It seems to be
+# the thing causing my problems when using vim on tmux (characters will be mis-
+# printed).
+# alias tmux="TERM=screen-256color-bce \tmux -2"
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/

@@ -1,4 +1,4 @@
-home/.irssi/_windowlist
+.DS_Store
 home/.irssi/away.log
 home/.irssi/config
 home/.irssi/config.autosave
@@ -7,7 +7,8 @@ home/.irssi/modules/libtext_xmpp.so
 home/.irssi/modules/libxmpp_core.so
 home/.irssi/scripts/autorun
 home/.irssi/solarized-universal.theme
-home/.vim/.netrwhist
+home/.irssi/_windowlist
 home/.vim/backups
 home/.vim/bundle
+home/.vim/.netrwhist
 home/.vim/sessions
