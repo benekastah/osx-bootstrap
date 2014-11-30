@@ -3,6 +3,9 @@ ZSH=$HOME/.oh-my-zsh
 
 # Ensure homebrew installs take precedence over system installs
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+if [ -d /usr/games ]; then
+    export PATH="$PATH:/usr/games"
+fi
 
 # I like to have a ~/local/bin too
 export PATH="$HOME/bin:$HOME/local/bin:$PATH"

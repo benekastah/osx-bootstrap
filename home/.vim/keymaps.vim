@@ -42,6 +42,13 @@ nnoremap wl :call Wincmd('l')<CR>
 " Buffer navigatior
 nnoremap <Left> :<C-U>exe 'bp '.v:count1<CR>
 nnoremap <Right> :<C-U>exe 'bn '.v:count1<CR>
+nnoremap \bp :<C-U>exe 'bp '.v:count1<CR>
+nnoremap \bn :<C-U>exe 'bn '.v:count1<CR>
+
+nnoremap <Up> :lwindow<CR>
+nnoremap <leader><Up> :cwindow<CR>
+nnoremap <Down> :lclose<CR>
+nnoremap <leader><Down> :cclose<CR>
 
 " Merge helpers
 " Find the next merge section
@@ -203,11 +210,10 @@ function! ShellCommand(cmd, ...)
 endfunction
 
 " Gen tags
-let g:gentag_command = 'ctags -R .'
-function! g:GenTags()
-    call ShellCommand(g:gentag_command)
-endfunction
-nnoremap <leader>gt :call g:GenTags()<CR>
+if !exists('g:neomake_ctags_maker')
+    let g:neomake_ctags_maker = {'args': ['-R']}
+endif
+nnoremap <leader>gt :Neomake! ctags<CR>
 
 " Refactoring helpers
 nnoremap <leader>" :%s/"\(.\{-}\)"/\="'".substitute(submatch(1), "'", '"', 'g')."'"/gc<CR>
@@ -397,3 +403,19 @@ vnoremap <leader>C :<C-U>call Calculate(visualmode(), 1)<CR>
 " scale for a given file. Wrap in exe so automatic trailing whitespace removal
 " won't mess this up.
 exe 'nnoremap <leader>sc :let b:calculate_scale = '
+
+
+" Text fill / align helpers
+function! AlignRight(width)
+    let yankSave = @"
+    let searchSave = @/
+    let oldtextwidth = &textwidth
+    if a:width
+        let &textwidth = a:width
+    endif
+    normal! d?\(\S\s\)\@<=mrV:right0d^`rPl
+    let &textwidth = oldtextwidth
+    let @" = yankSave
+    let @/ = searchSave
+endfunction
+nnoremap <leader>R :<C-U>call AlignRight(v:count)<CR>

@@ -27,8 +27,20 @@ if !has('nvim')
 endif
 set cursorline
 set tags=./tags;/,tags;/
+
+" Search
 set hlsearch
 set incsearch
+
+" Make gj and gk default
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+
+" More intuitive splitting
+set splitbelow
+set splitright
 
 " Change cursor style when entering INSERT mode (works in tmux!)
 " Thanks to http://vimrcfu.com/snippet/15
@@ -75,9 +87,7 @@ silent !mkdir ~/.vim/.backup > /dev/null 2>&1
 set backupdir=~/.vim/.backup//
 set backup
 
-silent !mkdir ~/.vim/.swp > /dev/null 2>&1
-set directory=~/.vim/.swp//
-set swapfile
+set noswapfile
 
 silent !mkdir ~/.vim/.undo > /dev/null 2>&1
 set undodir=~/.vim/.undo//
@@ -138,7 +148,6 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_error_symbol = 'E>'
 
 " ================ Neomake ========================
-" let g:neomake_open_list = 1
 let g:neomake_python_enabled_makers = ['pylint', 'pep8']
 
 " Tortoise Typing
