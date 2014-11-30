@@ -57,8 +57,11 @@ Bundle "kurkale6ka/vim-swap"
 Bundle "benmills/vimux"
 Bundle "pangloss/vim-javascript"
 Bundle "Shougo/unite.vim"
+Bundle "idris-hackers/idris-vim"
 " Adventure game
 Bundle "katono/rogue.vim"
+
+Bundle "benekastah/neomake"
 
 call vundle#end()
 "Filetype plugin indent on is required by vundle
