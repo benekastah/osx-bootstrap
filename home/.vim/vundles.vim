@@ -46,6 +46,7 @@ Bundle "rking/ag.vim"
 " Always do neomake for now
 if len(glob("`ls -d ~/.vim/dev/neomake`"))
     set rtp+=~/.vim/dev/neomake
+    " Bundle 'file:///'.expand('~/.vim/dev/neomake')
 else
     Bundle "benekastah/neomake"
     " Bundle "scrooloose/syntastic.git"

@@ -58,5 +58,4 @@ augroup paulh
     autocmd FileType c,cpp,objc,objcpp,python,cs let g:ycm_auto_trigger = 1
 
     autocmd FileType vim setlocal keywordprg=:help
-    autocmd FileType help noremap <buffer> q :q<CR>
 augroup END
