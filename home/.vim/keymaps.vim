@@ -229,9 +229,6 @@ nnoremap <leader>. :%s/\['\(\w\+\)\'\]/.\1/gc<CR>:%s/\["\(\w\+\)\"\]/.\1/gc<CR>
 " endfunction
 
 
-nnoremap <leader>jd :YcmCompleter GoTo<CR>
-
-
 " Solarized toggle light/dark
 function! ToggleBGPersist()
     :ToggleBG
