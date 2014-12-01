@@ -35,6 +35,7 @@ function! FindFileBackward(filename)
     return file
 endfunction
 
+" Timers
 let s:interval_id = 1
 let s:intervals = {}
 function! SetInterval(ms, action) abort
@@ -78,4 +79,24 @@ endfunction
 
 function! ClearTimeout(timeout_id) abort
     call ClearInterval(a:timeout_id)
+endfunction
+
+function! TmuxSplit(opts, cmd, ...)
+    if type(a:opts) == type(0)
+        let opts = get(g:, 'tmux_split_opts', '')
+    else
+        let opts = a:opts
+    endif
+    let splitw = 'tmux split-window '.opts
+    if a:0
+        let cmd = '_IN=/tmp/$RANDOM; cat > "$_IN"; '.
+                \ splitw.' '.shellescape('('.a:cmd.')').
+                \ '" < ''$_IN''; rm ''$_IN''"'
+        echom 'TmuxSplit '.cmd
+        call system(cmd, a:1)
+    else
+        let cmd = splitw.' '.shellescape(a:cmd)
+        echom 'TmuxSplit '.cmd
+        call system(cmd)
+    endif
 endfunction

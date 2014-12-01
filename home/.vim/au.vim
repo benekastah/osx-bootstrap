@@ -1,3 +1,4 @@
+let textFileTypes = ['text', 'html', 'markdown', 'ghmarkdown']
 
 augroup paulh
     autocmd!
@@ -12,10 +13,9 @@ augroup paulh
     let cFileTypes = ['c', 'c++', 'objc']
     autocmd BufNewFile,BufRead,BufFilePost * if index(cFileTypes, &ft) < 0 | setlocal cindent | endif
 
-    autocmd BufNewFile,BufReadPost *.md,*.markdown set filetype=ghmarkdown
-
-    let textFileTypes = ['text', 'html', 'markdown', 'ghmarkdown']
-    autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal spell spelllang=en_us | endif
+    if !has('nvim')
+        autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal spell spelllang=en_us | endif
+    endif
 
     autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal wrap | endif
 
@@ -51,7 +51,7 @@ augroup paulh
 
     autocmd Filetype haskell set makeprg=~/Library/Haskell/bin/cabal\ build
     autocmd Filetype cabal set makeprg=~/Library/Haskell/bin/cabal\ build
-    autocmd VimLeave * if exists(':VimuxCloseRunner') | VimuxCloseRunner | endif
+    autocmd VimLeave * VimuxCloseRunner
 
     " YCM
     autocmd FileType * let g:ycm_auto_trigger = 0
