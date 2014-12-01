@@ -136,6 +136,7 @@ set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.pyc,*.pyo,*.pyd,*.egg-info/**,*.egg,develop-eggs/**,__pycache__/**,.Python
+set wildignore+=.hsenv,.virtualenv,*.chs.h,*.chi,*.hi,*.cabal-sandbox,cabal.sandbox.config,cabal.config,*.dyn_hi,*.dyn_o,*.p_hi,*.p_o
 
 " ================ scrolling ========================
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
@@ -195,6 +196,25 @@ let g:haddock_browser = ""
 
 " Allows writing to readonly files
 command! -bang Write exe 'w !' . ('<bang>' ==# '!' ? 'sudo ' : '') . 'tee %'
+
+" Preview markdown/html with w3m
+function! W3m()
+    if &ft ==# 'markdown' || &ft ==# 'ghmarkdown'
+        let cmd = 'markdown % | w3m -T text/html'
+    elseif &ft ==# 'html'
+        let cmd = 'w3m -T text/html %'
+    else
+        let cmd = 'w3m %'
+    endif
+    if &mod
+        let cmd = substitute(cmd, '%', '', 'g')
+        call TmuxSplit(0, cmd, join(getline(1,'$'), "\n"))
+    else
+        let cmd = substitute(cmd, '%', shellescape(expand('%')), 'g')
+        call TmuxSplit(0, cmd)
+    endif
+endfunction
+command! W3m call W3m()
 
 
 if filereadable(expand("~/.vim/keymaps.vim"))

@@ -43,7 +43,6 @@ Bundle "kurkale6ka/vim-swap"
 Bundle "tomtom/tcomment_vim.git"
 Bundle "rking/ag.vim"
 
-" Always do neomake for now
 if len(glob("`ls -d ~/.vim/dev/neomake`"))
     set rtp+=~/.vim/dev/neomake
     helptags ~/.vim/dev/neomake/doc
@@ -71,6 +70,7 @@ Bundle "jtratner/vim-flavored-markdown.git"
 Bundle "stephpy/vim-yaml"
 Bundle "mustache/vim-mustache-handlebars"
 Bundle 'lukerandall/haskellmode-vim'
+Bundle "idris-hackers/idris-vim"
 Bundle "derekwyatt/vim-scala"
 " syntax, indent, and filetype plugin files for git, gitcommit, gitconfig,
 " gitrebase, and gitsendemail.
@@ -79,8 +79,7 @@ Bundle "tpope/vim-git"
 " ========================================
 " Trying before buying...
 " ========================================
-" Bundle "benmills/vimux"
-" Dispatch may replace vimux
+Bundle "benmills/vimux"
 Bundle "tpope/vim-dispatch"
 " Bundle "ap/vim-buftabline"
 
