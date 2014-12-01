@@ -46,6 +46,7 @@ Bundle "rking/ag.vim"
 " Always do neomake for now
 if len(glob("`ls -d ~/.vim/dev/neomake`"))
     set rtp+=~/.vim/dev/neomake
+    helptags ~/.vim/dev/neomake/doc
     " Bundle 'file:///'.expand('~/.vim/dev/neomake')
 else
     Bundle "benekastah/neomake"
@@ -81,6 +82,7 @@ Bundle "tpope/vim-git"
 " Bundle "benmills/vimux"
 " Dispatch may replace vimux
 Bundle "tpope/vim-dispatch"
+" Bundle "ap/vim-buftabline"
 
 " ========================================
 " Shits and giggles

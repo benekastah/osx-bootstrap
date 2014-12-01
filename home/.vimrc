@@ -87,6 +87,9 @@ silent !mkdir ~/.vim/.backup > /dev/null 2>&1
 set backupdir=~/.vim/.backup//
 set backup
 
+" silent !mkdir ~/.vim/.swp > /dev/null 2>&1
+" set directory=~/.vim/.swp//
+" set swapfile
 set noswapfile
 
 silent !mkdir ~/.vim/.undo > /dev/null 2>&1
