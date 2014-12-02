@@ -1,6 +1,9 @@
-[submodule "home/.irssi/scripts/irssi-notifier"]
-	path = home/.irssi/scripts/irssi-notifier
-	url = https://github.com/paddykontschak/irssi-notifier.git
 [submodule "home/.oh-my-zsh"]
 	path = home/.oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "home/.emacs.d"]
+	path = home/.emacs.d
+	url = http://github.com/syl20bnr/spacemacs
+[submodule "home/.irssi/scripts/irssi-notifier"]
+	path = home/.irssi/scripts/irssi-notifier
+	url = git@github.com:benekastah/irssi-notifier.git

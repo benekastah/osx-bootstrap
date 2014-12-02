@@ -10,6 +10,12 @@
 " Filetype off is required by vundle
 filetype off
 
+" Local plugins
+if len(glob("`ls -d ~/Tortoise-Typing`"))
+    set rtp+=~/Tortoise-Typing
+endif
+" set rtp+=~/checksrv
+
 set rtp+=~/.vim/bundle/Vundle.vim/
 
 if has('nvim')
