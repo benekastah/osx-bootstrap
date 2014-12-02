@@ -26,7 +26,7 @@ if !has('nvim')
     set cryptmethod=blowfish
 endif
 set cursorline
-set tags=./tags;/,tags;/
+set tags=./tags;~,tags,~/tags
 
 " Search
 set hlsearch

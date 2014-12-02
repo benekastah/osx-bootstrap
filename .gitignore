@@ -11,4 +11,5 @@ home/.irssi/_windowlist
 home/.vim/backups
 home/.vim/bundle
 home/.vim/.netrwhist
+home/.vim/.project.vim
 home/.vim/sessions

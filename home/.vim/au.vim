@@ -53,9 +53,11 @@ augroup paulh
     autocmd Filetype cabal set makeprg=~/Library/Haskell/bin/cabal\ build
     autocmd VimLeave * VimuxCloseRunner
 
-    " YCM
-    autocmd FileType * let g:ycm_auto_trigger = 0
-    autocmd FileType c,cpp,objc,objcpp,python,cs let g:ycm_auto_trigger = 1
+    let s:def_tmux_comment = 0
+    autocmd Filetype tmux if !s:def_tmux_comment |
+                \ let s:def_tmux_comment = 1 |
+                \ call tcomment#DefineType(&ft, '# %s') |
+                \ endif
 
     autocmd FileType vim setlocal keywordprg=:help
     " autocmd FileType help noremap <buffer> q :q<CR>

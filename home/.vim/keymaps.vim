@@ -40,8 +40,6 @@ nnoremap wk :call Wincmd('k')<CR>
 nnoremap wl :call Wincmd('l')<CR>
 
 " Buffer navigatior
-nnoremap <Left> :<C-U>exe 'bp '.v:count1<CR>
-nnoremap <Right> :<C-U>exe 'bn '.v:count1<CR>
 nnoremap \bp :<C-U>exe 'bp '.v:count1<CR>
 nnoremap \bn :<C-U>exe 'bn '.v:count1<CR>
 
@@ -49,6 +47,10 @@ nnoremap <Up> :lwindow<CR>
 nnoremap <leader><Up> :cwindow<CR>
 nnoremap <Down> :lclose<CR>
 nnoremap <leader><Down> :cclose<CR>
+
+" Navigate git hunks
+nnoremap \gn :GitGutterNextHunk<CR>
+nnoremap \gp :GitGutterPrevHunk<CR>
 
 " Merge helpers
 " Find the next merge section

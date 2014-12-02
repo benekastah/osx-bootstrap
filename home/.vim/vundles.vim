@@ -75,13 +75,14 @@ Bundle "derekwyatt/vim-scala"
 " syntax, indent, and filetype plugin files for git, gitcommit, gitconfig,
 " gitrebase, and gitsendemail.
 Bundle "tpope/vim-git"
+Bundle "tejr/vim-tmux"
 
 " ========================================
 " Trying before buying...
 " ========================================
-Bundle "benmills/vimux"
 Bundle "tpope/vim-dispatch"
-" Bundle "ap/vim-buftabline"
+Bundle "benmills/vimux"
+Bundle "jiangmiao/auto-pairs"
 
 " ========================================
 " Shits and giggles
