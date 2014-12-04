@@ -27,6 +27,7 @@ if !has('nvim')
 endif
 set cursorline
 set tags=./tags;~,tags,~/tags
+set breakindent
 
 " Search
 set hlsearch
@@ -68,8 +69,8 @@ let maplocalleader='\'
 " =============== Vundle Initialization ===============
 " This loads all the plugins specified in ~/.vim/vundle.vim
 " Use Vundle plugin to manage all other plugins
-if filereadable(expand("~/.vim/vundles.vim"))
-    source ~/.vim/vundles.vim
+if filereadable(expand("~/.vim/plugins.vim"))
+    source ~/.vim/plugins.vim
 endif
 
 if filereadable(expand("~/.vim/utils.vim"))

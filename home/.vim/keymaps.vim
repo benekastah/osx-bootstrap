@@ -9,6 +9,18 @@ function! Wincmd(cmd)
 
     exe ":wincmd ".a:cmd
 
+    if a:cmd ==# '_'
+        let t:winmax = 1
+        let w:wineq = 0
+        let w:winmax = 0
+        return
+    elseif a:cmd ==# '='
+        let t:winmax = 0
+        let w:wineq = 0
+        let w:winmax = 0
+        return
+    endif
+
     if &previewwindow || &buftype ==# 'quickfix'
         resize 10
         return
@@ -20,37 +32,38 @@ function! Wincmd(cmd)
         return
     endif
 
-    let w:wineq = exists('w:wineq') && w:wineq
-    if ((exists('t:winmax') && t:winmax) || (exists('w:winmax') && w:winmax)) && !w:wineq
+    if exists('t:winmax') && t:winmax
         :wincmd _
-    elseif l:prev_winmax || w:wineq
+    elseif l:prev_winmax
         :wincmd =
     endif
 endfunction
 
-nnoremap w_ :wincmd _<CR> :let t:winmax = 1<CR> :let w:wineq = 0<CR> :let w:winmax = 0<CR>
-nnoremap w= :wincmd =<CR> :let t:winmax = 0<CR> :let w:wineq = 0<CR> :let w:winmax = 0<CR>
-nnoremap ww_ :wincmd _<CR> :let w:winmax = 1<CR> :let w:wineq = 0<CR>
-nnoremap ww= :wincmd =<CR> :let w:winmax = 0<CR> :let w:wineq = 1<CR>
-nnoremap w- :call Wincmd('-')<CR>
-nnoremap w+ :call Wincmd('+')<CR>
-nnoremap wh :call Wincmd('h')<CR>
-nnoremap wj :call Wincmd('j')<CR>
-nnoremap wk :call Wincmd('k')<CR>
-nnoremap wl :call Wincmd('l')<CR>
+" Override some of the C-w commands for additional features
+noremap <C-w>_ :call Wincmd('_')<CR>
+noremap <C-w><C-_> :call Wincmd('_')<CR>
+noremap <C-w>= :call Wincmd('=')<CR>
+noremap <C-w><C-=> :call Wincmd('=')<CR>
+noremap <C-w>- :call Wincmd('-')<CR>
+noremap <C-w><C--> :call Wincmd('-')<CR>
+noremap <C-w>+ :call Wincmd('+')<CR>
+noremap <C-w><C-+> :call Wincmd('+')<CR>
+noremap <C-w>h :call Wincmd('h')<CR>
+noremap <C-w><C-h> :call Wincmd('h')<CR>
+noremap <C-w>j :call Wincmd('j')<CR>
+noremap <C-w><C-j> :call Wincmd('j')<CR>
+noremap <C-w>k :call Wincmd('k')<CR>
+noremap <C-w><C-k> :call Wincmd('k')<CR>
+noremap <C-w>l :call Wincmd('l')<CR>
+noremap <C-w><C-l> :call Wincmd('l')<CR>
 
 " Buffer navigatior
-nnoremap \bp :<C-U>exe 'bp '.v:count1<CR>
-nnoremap \bn :<C-U>exe 'bn '.v:count1<CR>
-
-nnoremap <Up> :lwindow<CR>
-nnoremap <leader><Up> :cwindow<CR>
-nnoremap <Down> :lclose<CR>
-nnoremap <leader><Down> :cclose<CR>
+nnoremap <localleader>bp :<C-U>exe 'bp '.v:count1<CR>
+nnoremap <localleader>bn :<C-U>exe 'bn '.v:count1<CR>
 
 " Navigate git hunks
-nnoremap \gn :GitGutterNextHunk<CR>
-nnoremap \gp :GitGutterPrevHunk<CR>
+nnoremap <localleader>gn :GitGutterNextHunk<CR>
+nnoremap <localleader>gp :GitGutterPrevHunk<CR>
 
 " Merge helpers
 " Find the next merge section
@@ -61,37 +74,44 @@ nnoremap <leader>wqa :w<CR>:qa<CR>
 nnoremap <leader>wqa! :w!<CR>:qa!<CR>
 
 vnoremap * :<C-u>exe '/'.GetVisualSelection()<CR>
-vnoremap <leader>* :<C-u>call AgLiteral(GetVisualSelection())<CR>
+vnoremap <leader>* :<C-u>exe 'Ag -Q '.shellescape(GetVisualSelection())<CR>
 nnoremap <leader>* *N:call ag#AgFromSearch('grep', '')<CR>
 
 " Syntastic
-function! SyntasticFullCheck()
-    let checkers_full_name =  'syntastic_' . &ft . '_checkers_full'
-    let old_checkers = -1
-    if exists('g:' . checkers_full_name)
-        let old_checkers = get(b:, 'syntastic_checkers')
-        let b:syntastic_checkers = get(g:, checkers_full_name)
-    endif
-    SyntasticCheck
-    if old_checkers && old_checkers != -1
-        let b:syntastic_checkers = old_checkers
-    elseif old_checkers != -1
-        unlet b:syntastic_checkers
-    endif
-endfunction
-nnoremap <leader>e :call SyntasticFullCheck()<CR>
-nnoremap \n :lnext<CR>
-nnoremap \p :lprev<CR>
+" function! SyntasticFullCheck()
+"     let checkers_full_name =  'syntastic_' . &ft . '_checkers_full'
+"     let old_checkers = -1
+"     if exists('g:' . checkers_full_name)
+"         let old_checkers = get(b:, 'syntastic_checkers')
+"         let b:syntastic_checkers = get(g:, checkers_full_name)
+"     endif
+"     SyntasticCheck
+"     if old_checkers && old_checkers != -1
+"         let b:syntastic_checkers = old_checkers
+"     elseif old_checkers != -1
+"         unlet b:syntastic_checkers
+"     endif
+" endfunction
+" nnoremap <leader>e :call SyntasticFullCheck()<CR>
 
 " Clear search
 nnoremap <leader>/ :let @/ = ""<CR>
 
-nnoremap <leader>rg :EditRelatedFilesGit<CR>
-nnoremap <leader>rs :EditRelatedFilesName<CR>
-
-" Errors
-nnoremap <leader>n :cnext<CR>
+" Open and close list
+nnoremap <leader>w :cwindow<CR>
+nnoremap <leader>q :cclose<CR>
+nnoremap <localleader>w :lwindow<CR>
+nnoremap <localleader>q :lclose<CR>
+" Next/prev error
 nnoremap <leader>p :cprev<CR>
+nnoremap <leader>n :cnext<CR>
+nnoremap <localleader>p :lprev<CR>
+nnoremap <localleader>n :lnext<CR>
+" First/last error
+nnoremap <leader><leader>p :cfirst<CR>
+nnoremap <leader><leader>n :clast<CR>
+nnoremap <localleader><localleader>p :lfirst<CR>
+nnoremap <localleader><localleader>n :llast<CR>
 
 " Sort
 function! SortLines(type, ...)

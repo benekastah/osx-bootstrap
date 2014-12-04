@@ -1,4 +1,4 @@
-let textFileTypes = ['text', 'html', 'markdown', 'ghmarkdown']
+let textFileTypes = ['text', 'html', 'markdown', 'ghmarkdown', 'mustache']
 
 augroup paulh
     autocmd!
