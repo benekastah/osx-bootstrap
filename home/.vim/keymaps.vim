@@ -64,6 +64,7 @@ nnoremap <localleader>bn :<C-U>exe 'bn '.v:count1<CR>
 " Navigate git hunks
 nnoremap <localleader>gn :GitGutterNextHunk<CR>
 nnoremap <localleader>gp :GitGutterPrevHunk<CR>
+nnoremap <localleader>gr :GitGutterRevertHunk<CR>
 
 " Merge helpers
 " Find the next merge section

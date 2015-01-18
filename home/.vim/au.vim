@@ -17,7 +17,7 @@ augroup paulh
         autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal spell spelllang=en_us | endif
     endif
 
-    autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal wrap | endif
+    " autocmd BufNewFile,BufRead,BufFilePost * if index(textFileTypes, &ft) > 0 | setlocal wrap | endif
 
     autocmd BufNewFile,BufRead,BufFilePost *.json :set ft=json
     autocmd FileType json runtime! syntax/javascript.vim
@@ -44,6 +44,7 @@ augroup paulh
     "             \ setlocal errorformat+=%f:(%l):\ %m
 
     autocmd BufWritePost *.py,*.js Neomake
+    autocmd BufWritePost *.py,*.js,*.jsx,*.c,*.cpp,*.h Neomake
 
     autocmd Filetype python let b:CalculateCommand=function('CalculatePythonCommand')
     autocmd Filetype javascript let b:CalculateCommand=function('CalculateJavascriptCommand')
@@ -52,12 +53,6 @@ augroup paulh
     autocmd Filetype haskell set makeprg=~/Library/Haskell/bin/cabal\ build
     autocmd Filetype cabal set makeprg=~/Library/Haskell/bin/cabal\ build
     autocmd VimLeave * VimuxCloseRunner
-
-    let s:def_tmux_comment = 0
-    autocmd Filetype tmux if !s:def_tmux_comment |
-                \ let s:def_tmux_comment = 1 |
-                \ call tcomment#DefineType(&ft, '# %s') |
-                \ endif
 
     autocmd FileType vim setlocal keywordprg=:help
     " autocmd FileType help noremap <buffer> q :q<CR>

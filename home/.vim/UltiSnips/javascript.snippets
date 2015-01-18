@@ -26,11 +26,11 @@ function ${1:ClassName}() {
 	this.$2.apply(this, arguments);
 }
 
-(function () {
-	this.${2:initialize} = function ($3) {
-		$0
-	};
-}).call($1.prototype);
+_.extend($1.prototype, {
+	${2:initialize}: function () {
+
+	}
+});
 endsnippet
 
 snippet subclass "make a subclass"
@@ -41,9 +41,11 @@ function ${1:ClassName}() {
 $1.prototype = Object.create(${2:ParentClass}.prototype);
 $1.prototype.constructor = $1;
 
-(function () {
-	${0:// Method definitions here}
-}).call($1.prototype);
+_.extend($1.prototype, {
+	${3:method}: function () {
+
+	}
+});
 endsnippet
 
 snippet extends "extend an existing class with a superclass"
@@ -63,12 +65,6 @@ snippet dofunction "make a self-executing function"
 })($3)${4:;}
 endsnippet
 
-snippet NotImplemented "not implemented error"
+snippet ??? "not implemented error"
 throw new Error('Not implemented');
-endsnippet
-
-snippet functionNotImplemented "a function with a not implemented error"
-function () {
-	throw new Error('Not implemented');
-}
 endsnippet

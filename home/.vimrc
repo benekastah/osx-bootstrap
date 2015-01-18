@@ -27,31 +27,20 @@ if !has('nvim')
 endif
 set cursorline
 set tags=./tags;~,tags,~/tags
-set breakindent
 
 " Search
 set hlsearch
 set incsearch
 
-" Make gj and gk default
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
+" " Make gj and gk default
+" nnoremap j gj
+" nnoremap k gk
+" nnoremap gj j
+" nnoremap gk k
 
 " More intuitive splitting
 set splitbelow
 set splitright
-
-" Change cursor style when entering INSERT mode (works in tmux!)
-" Thanks to http://vimrcfu.com/snippet/15
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
 
 " This makes vim act like all other editors, buffers can exist in the
 " background without being in a window.
@@ -113,7 +102,9 @@ filetype indent on
 " Display tabs and trailing spaces visually
 set list listchars=tab:\ \ ,trail:·
 
-set nowrap       "Don't wrap lines
+" set nowrap       "Don't wrap lines
+set wrap
+set breakindent
 set linebreak    "Wrap lines at convenient points
 
 " ================ Folds ============================
@@ -140,7 +131,7 @@ set wildignore+=*.pyc,*.pyo,*.pyd,*.egg-info/**,*.egg,develop-eggs/**,__pycache_
 set wildignore+=.hsenv,.virtualenv,*.chs.h,*.chi,*.hi,*.cabal-sandbox,cabal.sandbox.config,cabal.config,*.dyn_hi,*.dyn_o,*.p_hi,*.p_o
 
 " ================ scrolling ========================
-set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set scrolloff=1         "Start scrolling when we're 1 lines away from margins
 
 " ================ Syntastic ========================
 " let g:syntastic_mode_map = {'mode': 'passive'}
@@ -153,7 +144,15 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_error_symbol = 'E>'
 
 " ================ Neomake ========================
-let g:neomake_python_enabled_makers = ['pylint', 'pep8']
+hi Warning ctermfg=3
+let g:neomake_error_sign = {
+            \ 'texthl': 'Error',
+            \ }
+let g:neomake_warning_sign = {
+            \ 'text': '‼',
+            \ 'texthl': 'Warning'
+            \ }
+let g:neomake_python_enabled_makers = ['pep8', 'pylint']
 
 " Tortoise Typing
 let g:tortoiseTypingKeyLog = $HOME.'/.typing_keys'
@@ -165,7 +164,31 @@ let g:vimuxHeight = "10"
 " RunSqlQuery config
 let g:sqlCommand = 'psql'
 
+
+" Comment config
+call tcomment#DefineType('tmux', '# %s')
+" Jsx should match javascript style
+call tcomment#DefineType('jsx', '// %s')
+call tcomment#DefineType('jsx_block', g:tcommentBlockC)
+call tcomment#DefineType('jsx_inline', g:tcommentInlineC)
+
+
 " ================ Statusline ========================
+function! StatuslineLocList()
+    let errcount = 0
+    let buf = bufnr('%')
+    for err in getloclist(winnr())
+        if err.bufnr ==# buf
+            let errcount += 1
+        endif
+    endfor
+    if errcount
+        return 'Err: '.errcount
+    else
+        return ''
+    endif
+endfunction
+
 function! Statusline()
     set noruler
     set laststatus=2
@@ -179,8 +202,9 @@ function! Statusline()
 
     set statusline+=%=                                   " Switch to right side
     set statusline+=%#comment#%l,%c%V                    " Line and column info
-    set statusline+=\ \ \                                " Separator
-    set statusline+=%#comment#%P                         " Percentage through file of displayed window
+    set statusline+=\ %#ErrorMsg#%{neomake#statusline#QflistStatus('qf:\ ')}
+    set statusline+=%#Normal#
+    set statusline+=\ %#ErrorMsg#%{neomake#statusline#LoclistStatus('ll:\ ')}
 endfunction
 call Statusline()
 
@@ -229,10 +253,6 @@ endif
 if filereadable(expand("~/.vim/au.vim"))
     source ~/.vim/au.vim
 endif
-
-" if filereadable(expand("~/.vim/ranger.vim"))
-"     source ~/.vim/ranger.vim
-" endif
 
 let g:project_local_vimrc = FindFileBackward('.project.vim')
 if filereadable(g:project_local_vimrc)

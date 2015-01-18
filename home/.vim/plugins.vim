@@ -84,6 +84,8 @@ NeoBundle 'michaeljsmith/vim-indent-object'
 NeoBundle 'jdonaldson/vaxe'
 NeoBundle 'wting/rust.vim'
 NeoBundle 'pangloss/vim-javascript'
+" NeoBundle 'mxw/vim-jsx'
+NeoBundle 'git://github.com/jsx/jsx.vim.git'
 NeoBundle 'kchmck/vim-coffee-script'
 " Provides ghmarkdown (github-flavored markdown)
 NeoBundle 'jtratner/vim-flavored-markdown'
@@ -103,7 +105,6 @@ NeoBundle 'tejr/vim-tmux'
 " ========================================
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'benmills/vimux'
-NeoBundle 'jiangmiao/auto-pairs'
 NeoBundle 'Shougo/vimproc.vim', {
 \ 'build' : {
 \     'windows' : 'tools\\update-dll-mingw',
