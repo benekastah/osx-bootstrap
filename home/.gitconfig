@@ -1,5 +1,6 @@
 [alias]
     br = !git checkout master && git pull && git checkout -b "$1"
+    babysit = !git-babysit
 [push]
     default = simple
 [user]
@@ -19,3 +20,5 @@
 # This belongs at the end
 [include]
     path = "~/.gitconfig.local"
+[grep]
+	patternType = extended

@@ -32,6 +32,12 @@ set tags=./tags;~,tags,~/tags
 set hlsearch
 set incsearch
 
+" I don't need no ag.vim!!
+set grepprg=ag\ --nogroup\ --nocolor\ --column
+set grepformat=%f:%l:%c:%m,%f:%l:%m
+command! -nargs=+ -complete=file_in_path -bar Ag silent grep! <args> | redraw! | cwindow
+command! -nargs=+ -complete=file_in_path -bar LAg silent lgrep! <args> | redraw! | lwindow
+
 " " Make gj and gk default
 " nnoremap j gj
 " nnoremap k gk
@@ -67,7 +73,11 @@ if filereadable(expand("~/.vim/utils.vim"))
 endif
 
 " ================ Colors ========================
-set background=dark
+if filereadable(expand('~/.vim/background.vim'))
+    source ~/.vim/background.vim
+else
+    set background=dark
+endif
 set t_Co=256
 colorscheme solarized
 
@@ -134,7 +144,7 @@ set wildignore+=*.pyc,*.pyo,*.pyd,*.egg-info/**,*.egg,develop-eggs/**,__pycache_
 set wildignore+=.hsenv,.virtualenv,*.chs.h,*.chi,*.hi,*.cabal-sandbox,cabal.sandbox.config,cabal.config,*.dyn_hi,*.dyn_o,*.p_hi,*.p_o
 
 " ================ scrolling ========================
-set scrolloff=1         "Start scrolling when we're 1 lines away from margins
+set scrolloff=1         "Start scrolling when we're 1 line away from margins
 
 " ================ Syntastic ========================
 " let g:syntastic_mode_map = {'mode': 'passive'}
@@ -155,7 +165,7 @@ let g:neomake_warning_sign = {
             \ 'text': '‼',
             \ 'texthl': 'Warning'
             \ }
-let g:neomake_python_enabled_makers = ['pep8', 'pylint']
+let g:neomake_python_enabled_makers = ['python', 'pep8', 'pylint']
 
 " Tortoise Typing
 let g:tortoiseTypingKeyLog = $HOME.'/.typing_keys'
