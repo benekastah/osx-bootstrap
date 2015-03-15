@@ -102,9 +102,12 @@ filetype indent on
 " Display tabs and trailing spaces visually
 set list listchars=tab:\ \ ,trail:·
 
-" set nowrap       "Don't wrap lines
-set wrap
-set breakindent
+if has('nvim')
+    set wrap
+    set breakindent
+else
+    set nowrap       "Don't wrap lines
+endif
 set linebreak    "Wrap lines at convenient points
 
 " ================ Folds ============================

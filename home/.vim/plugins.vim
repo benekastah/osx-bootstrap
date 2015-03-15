@@ -99,6 +99,7 @@ NeoBundle 'derekwyatt/vim-scala'
 " gitrebase, and gitsendemail.
 NeoBundle 'tpope/vim-git'
 NeoBundle 'tejr/vim-tmux'
+NeoBundle 'glsl.vim'
 
 " ========================================
 " Trying before buying...

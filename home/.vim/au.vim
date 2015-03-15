@@ -56,4 +56,6 @@ augroup paulh
 
     autocmd FileType vim setlocal keywordprg=:help
     " autocmd FileType help noremap <buffer> q :q<CR>
+
+    au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl set ft=glsl
 augroup END
