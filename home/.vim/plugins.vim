@@ -62,7 +62,6 @@ NeoBundle 'kurkale6ka/vim-swap'
 " General text editing improvements...
 " ========================================
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'rking/ag.vim'
 
 if len(glob("`ls -d ~/.vim/dev/neomake`"))
     " set rtp+=~/.vim/dev/neomake

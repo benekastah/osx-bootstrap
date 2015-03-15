@@ -76,7 +76,7 @@ nnoremap <leader>wqa! :w!<CR>:qa!<CR>
 
 vnoremap * :<C-u>exe '/'.GetVisualSelection()<CR>
 vnoremap <leader>* :<C-u>exe 'Ag -Q '.shellescape(GetVisualSelection())<CR>
-nnoremap <leader>* *N:call ag#AgFromSearch('grep', '')<CR>
+nnoremap <leader>* *N:exe "Ag '\\b".expand('<cword>')."\\b'"<CR>
 
 " Syntastic
 " function! SyntasticFullCheck()
@@ -311,7 +311,8 @@ nnoremap <leader>wt :call WrapTag()<CR>
 
 
 " ======================= Refactor helpers =============================
-command! TODO :silent! exe '/\<\(TODO\|FIXME\|XXX\)\>' | Ag '\b(TODO|FIXME|XXX)\b'
+command! TODO :silent! exe '/\<\(TODO\|FIXME\|XXX\)\>' | Ag '\b(TODO\\|FIXME\\|XXX)\b'
+command! TEST :silent! exe '/\<\(TOTEST\|TEST\)\>' | Ag '\b(TOTEST\\|TEST)\b'
 
 
 " ======================= Filter text with shell command =============================
