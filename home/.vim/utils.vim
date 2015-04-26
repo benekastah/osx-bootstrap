@@ -9,32 +9,6 @@ function! GetVisualSelection()
 endfunction
 command! GetVisualSelection echo GetVisualSelection()
 
-function! s:findFileBackward(path, filename)
-    let file = a:filename
-    let path = a:path
-    if !strlen(path)
-        let path = '.'
-    endif
-    while !filereadable(file)
-        if path ==# '/'
-            return ''
-        endif
-        let path = system('cd '.shellescape(path.'/..').' && echo -n $PWD')
-        let file = path.'/'.a:filename
-    endwhile
-    return file
-endfunction
-
-function! FindFileBackward(filename)
-    " Try to resolve the file from the current buffer first
-    let file = s:findFileBackward(expand('%:h'), a:filename)
-    if !strlen(file)
-        " Try to resolve the file from the cwd
-        return s:findFileBackward(getcwd(), a:filename)
-    endif
-    return file
-endfunction
-
 " Timers
 let s:interval_id = 1
 let s:intervals = {}

@@ -1,16 +1,20 @@
 #!/usr/bin/env zsh
 
+this-branch() {
+    git rev-parse --abbrev-ref HEAD
+}
+
 list-item() {
     echo "$1 (y/n/d) "
     read yn
     case "$yn" in
-        y|Y|q|Q)
+        y|Y|yes)
             ;;
-        n|N)
+        n|N|q|Q|no)
             exit 1
             ;;
         d|D)
-            git diff
+            git diff origin/master...HEAD
             list-item "$1"
             ;;
         *)
@@ -27,9 +31,13 @@ show-checklist() {
     list-item 'Where you added new comments, are you sure there is no way to make the code obvious without the comment?'
     list-item 'Have you assessed the risk these changes pose and explored less risky options?'
     list-item 'Have you thoroughly tested all branches of your code?'
+    list-item 'Have you written tests where necessary?'
+    list-item 'Have you run tests to ensure you didn'"'"'t break any?'
     list-item 'Did you list out potential edge cases and test them?'
+
+    push_cmd="git push -u origin \"$(this-branch)\""
+    list-item "Automatically push ($push_cmd)?"
+    eval "$push_cmd"
 }
 
 show-checklist
-git add -p
-git commit

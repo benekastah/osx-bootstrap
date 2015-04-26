@@ -114,7 +114,8 @@ set list listchars=tab:\ \ ,trail:·
 
 " set nowrap       "Don't wrap lines
 set wrap
-set breakindent
+" This is only in neovim, so ignore errors
+silent! set breakindent
 set linebreak    "Wrap lines at convenient points
 
 " ================ Folds ============================
@@ -264,7 +265,7 @@ if filereadable(expand("~/.vim/au.vim"))
     source ~/.vim/au.vim
 endif
 
-let g:project_local_vimrc = FindFileBackward('.project.vim')
+let g:project_local_vimrc = findfile('.project.vim', '.;')
 if filereadable(g:project_local_vimrc)
     execute 'source ' . g:project_local_vimrc
     let g:last_toggled_background = get(g:, 'last_toggled_background', '')

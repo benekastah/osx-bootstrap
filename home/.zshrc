@@ -57,7 +57,7 @@ CASE_SENSITIVE="true"
 plugins=(git tmux python pep8 pip brew fabric virtualenv)
 
 # tmux
-# ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOSTART=true
 
 source $ZSH/oh-my-zsh.sh
 HOMESHICK_SH="$HOME/.homesick/repos/homeshick/homeshick.sh"
