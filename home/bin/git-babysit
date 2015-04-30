@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 this-branch() {
     git rev-parse --abbrev-ref HEAD
@@ -25,15 +25,15 @@ list-item() {
 }
 
 show-checklist() {
-    list-item 'Did you explore all areas that may potentially need to change and thoroughly fixed the entire problem?'
-    list-item 'Are you sure this is the simplest/smallest set of changes that can be made to solve the entire problem?'
-    list-item 'Can you say there are no areas that need comments in code to prevent confusion in the PR (or when maintaining the code)?'
-    list-item 'Where you added new comments, are you sure there is no way to make the code obvious without the comment?'
+    list-item 'Did you thoroughly fix the entire problem?'
+    list-item 'Is this the simplest/smallest set of changes that can be made?'
+    list-item 'Can you say there no areas that need further comments?'
+    list-item 'Where possible, did you remove comments by making the code clearer?'
     list-item 'Have you assessed the risk these changes pose and explored less risky options?'
+    list-item 'Did you list out potential edge cases and test them?'
     list-item 'Have you thoroughly tested all branches of your code?'
     list-item 'Have you written tests where necessary?'
-    list-item 'Have you run tests to ensure you didn'"'"'t break any?'
-    list-item 'Did you list out potential edge cases and test them?'
+    list-item 'Have you run the tests?'
 
     push_cmd="git push -u origin \"$(this-branch)\""
     list-item "Automatically push ($push_cmd)?"
