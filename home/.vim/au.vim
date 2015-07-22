@@ -43,7 +43,7 @@ augroup paulh
     "             \ setlocal errorformat+=%f:%l:\ %m |
     "             \ setlocal errorformat+=%f:(%l):\ %m
 
-    autocmd BufWritePost,BufReadPost,FileType * Neomake
+    autocmd BufWritePost,BufReadPost * Neomake
 
     autocmd Filetype python let b:CalculateCommand=function('CalculatePythonCommand')
     autocmd Filetype javascript let b:CalculateCommand=function('CalculateJavascriptCommand')

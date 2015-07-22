@@ -36,7 +36,9 @@ set incsearch
 set grepprg=ag\ --nogroup\ --nocolor\ --column
 set grepformat=%f:%l:%c:%m,%f:%l:%m
 command! -nargs=+ -complete=file_in_path -bar Ag silent grep! <args> | redraw! | cwindow
-command! -nargs=+ -complete=file_in_path -bar LAg silent lgrep! <args> | redraw! | lwindow
+command! -nargs=+ -complete=file_in_path -bar Lag silent lgrep! <args> | redraw! | lwindow
+command! -nargs=+ -complete=file_in_path -bar AG Ag <args>
+command! -nargs=+ -complete=file_in_path -bar LAG Lag <args>
 
 " " Make gj and gk default
 " nnoremap j gj

@@ -53,7 +53,6 @@ NeoBundle 'vim-misc'
 " ========================================
 NeoBundle 'xolox/vim-session'
 NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'moll/vim-bbye'
 NeoBundle 'tpope/vim-fugitive'
 " A plugin which makes swapping of text in Vim easier
 NeoBundle 'kurkale6ka/vim-swap'
@@ -83,8 +82,8 @@ NeoBundle 'michaeljsmith/vim-indent-object'
 NeoBundle 'jdonaldson/vaxe'
 NeoBundle 'wting/rust.vim'
 NeoBundle 'pangloss/vim-javascript'
-" NeoBundle 'mxw/vim-jsx'
-NeoBundle 'git://github.com/jsx/jsx.vim.git'
+NeoBundle 'mxw/vim-jsx'
+" NeoBundle 'git://github.com/jsx/jsx.vim.git'
 NeoBundle 'kchmck/vim-coffee-script'
 " Provides ghmarkdown (github-flavored markdown)
 NeoBundle 'jtratner/vim-flavored-markdown'
@@ -105,15 +104,6 @@ NeoBundle 'glsl.vim'
 " ========================================
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'benmills/vimux'
-NeoBundle 'Shougo/vimproc.vim', {
-\ 'build' : {
-\     'windows' : 'tools\\update-dll-mingw',
-\     'cygwin' : 'make -f make_cygwin.mak',
-\     'mac' : 'make -f make_mac.mak',
-\     'linux' : 'make',
-\     'unix' : 'gmake',
-\    },
-\ }
 
 " ========================================
 " Shits and giggles

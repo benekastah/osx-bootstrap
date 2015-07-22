@@ -15,7 +15,7 @@
 [mergetool]
     prompt = false
 [core]
-    editor = "/usr/bin/env nvim"
+    editor = /usr/bin/vim
 
 # This belongs at the end
 [include]
