@@ -56,6 +56,7 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'tpope/vim-fugitive'
 " A plugin which makes swapping of text in Vim easier
 NeoBundle 'kurkale6ka/vim-swap'
+NeoBundle 'editorconfig/editorconfig-vim'
 
 " ========================================
 " General text editing improvements...
@@ -98,6 +99,7 @@ NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'tpope/vim-git'
 NeoBundle 'tejr/vim-tmux'
 NeoBundle 'glsl.vim'
+NeoBundle 'dag/vim-fish'
 
 " ========================================
 " Trying before buying...
