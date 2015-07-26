@@ -100,6 +100,7 @@ NeoBundle 'tpope/vim-git'
 NeoBundle 'tejr/vim-tmux'
 NeoBundle 'glsl.vim'
 NeoBundle 'dag/vim-fish'
+NeoBundle 'zah/nim.vim'
 
 " ========================================
 " Trying before buying...
