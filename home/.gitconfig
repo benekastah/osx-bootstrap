@@ -1,6 +1,6 @@
 [alias]
     babysit = !git-babysit
-    fixup = !git commit -m fixup && git rebase -i HEAD~2
+    nb = !sh -c 'git checkout master && git checkout -b $1 && git pull origin master' -
 [push]
     default = simple
 [user]

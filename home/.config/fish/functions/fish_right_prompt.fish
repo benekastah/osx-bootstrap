@@ -1,0 +1,6 @@
+set __fish_git_prompt_showuntrackedfiles 1
+set __fish_git_prompt_showdirtystate 1
+set __fish_git_prompt_showupstream auto
+function fish_right_prompt
+    __fish_git_prompt
+end

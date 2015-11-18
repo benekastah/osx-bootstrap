@@ -1,5 +1,5 @@
 # Ensure homebrew installs take precedence over system installs
-set PATH /usr/local/bin /usr/bin /bin /usr/sbin /sbin
+set PATH /usr/local/bin $PATH
 
 if test -d /usr/games
     set PATH $PATH /usr/games

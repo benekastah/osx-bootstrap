@@ -25,15 +25,9 @@ list-item() {
 }
 
 show-checklist() {
-    list-item 'Did you thoroughly fix the entire problem?'
     list-item 'Is this the simplest/smallest set of changes that can be made?'
-    list-item 'Can you say there no areas that need further comments?'
-    list-item 'Where possible, did you remove comments by making the code clearer?'
-    list-item 'Have you assessed the risk these changes pose and explored less risky options?'
-    list-item 'Did you list out potential edge cases and test them?'
     list-item 'Have you thoroughly tested all branches of your code?'
-    list-item 'Have you written tests where necessary?'
-    list-item 'Have you run the tests?'
+    list-item 'Have you broken your code yet?'
 
     push_cmd="git push -u origin \"$(this-branch)\""
     list-item "Automatically push ($push_cmd)?"

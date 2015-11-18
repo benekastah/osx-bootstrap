@@ -339,25 +339,6 @@ function! TextFilter(type, Cmd, ...)
     let &selection = sel_save
 endfunction
 
-function! CommandFilter(type, ...)
-    if a:0 >= 2
-        let cmd = a:2
-    else
-        call inputsave()
-        let cmd = input("Command: ")
-        call inputrestore()
-    endif
-
-    function! Cmd(text)
-        return system(cmd, a:text)
-    endfunction
-
-    TextFilter(a:type, function('Cmd'), a:0 && a:1)
-endfunction
-nnoremap <leader>f :set opfunc=CommandFilter<CR>g@
-vnoremap <leader>f :<C-U>call CommandFilter(visualmode(), 1)<CR>
-
-
 " ======================= Calculator Macro =============================
 function! CalculateBcCommand(text)
     if !len(a:text)
@@ -440,3 +421,23 @@ function! AlignRight(width)
     let @/ = searchSave
 endfunction
 nnoremap <leader>R :<C-U>call AlignRight(v:count)<CR>
+
+
+function! AgPrompt(withArgs)
+    call inputsave()
+    if a:withArgs
+        let search = input("Ag ")
+    else
+        let search = input("Search for: ")
+    endif
+    call inputrestore()
+
+    let search = substitute(search, '|', '\\\\|', 'g')
+    if a:withArgs
+        exe 'Ag '.search
+    else
+        exe 'Ag '.shellescape(search).' '.join(a:000, ' ')
+    endif
+endfunction
+nnoremap <leader>f :call AgPrompt(0)<CR>
+nnoremap <leader>F :call AgPrompt(1)<CR>
