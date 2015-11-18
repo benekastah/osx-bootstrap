@@ -1,7 +1,0 @@
-# Ignore everything in this directory
-*
-# Except these files/directories
-!.gitignore
-# And the two directories in this directory
-!bodies
-!headers

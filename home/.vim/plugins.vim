@@ -12,8 +12,8 @@ Plug 'vim-misc'
 " ========================================
 " Added functionality
 " ========================================
-Plug 'xolox/vim-session'
-Plug 'airblade/vim-gitgutter'
+" Plug 'xolox/vim-session'
+" Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 " A plugin which makes swapping of text in Vim easier
 Plug 'kurkale6ka/vim-swap'
