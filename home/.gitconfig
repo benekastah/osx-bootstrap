@@ -1,6 +1,5 @@
 [alias]
-    babysit = !git-babysit
-    nb = !sh -c 'git checkout master && git checkout -b $1 && git pull origin master' -
+    up = !git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
 [push]
     default = simple
 [user]
@@ -21,4 +20,4 @@
 [include]
     path = "~/.gitconfig.local"
 [grep]
-	patternType = extended
+    patternType = extended
