@@ -75,11 +75,26 @@ if filereadable(expand("~/.vim/utils.vim"))
 endif
 
 " ================ Colors ========================
-if filereadable(expand('~/.vim/background.vim'))
-    source ~/.vim/background.vim
-else
-    set background=dark
-endif
+" function! s:SetBackground()
+"     let [hour, minute] = split(system('date +%H:%M'), ':', 0)
+"     let hour += 0
+"     let minute += 0
+"     if hour < 6 || hour > 16 || (hour == 6 && minute > 30) || (hour == 16 && minute > 30)
+"         set background=dark
+"     else
+"         set background=light
+"     endif
+" endfunction
+" call s:SetBackground()
+
+" So that sunset can figure out if the theme should be light or dark
+" San Francisco
+let g:sunset_latitude = 37.77
+let g:sunset_longitude = -122.42
+" Tokyo
+" let g:sunset_latitude = 35.69
+" let g:sunset_longitude = 139.69
+
 set t_Co=256
 colorscheme solarized
 
@@ -272,9 +287,4 @@ endif
 let g:project_local_vimrc = findfile('.project.vim', '.;')
 if filereadable(g:project_local_vimrc)
     execute 'source ' . g:project_local_vimrc
-    let g:last_toggled_background = get(g:, 'last_toggled_background', '')
-    " Toggle back to the last toggled version
-    if len(g:last_toggled_background) && g:last_toggled_background != &background
-        :ToggleBG
-    endif
 endif
