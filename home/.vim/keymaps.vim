@@ -252,21 +252,7 @@ nnoremap <leader>. :%s/\['\(\w\+\)\'\]/.\1/gc<CR>:%s/\["\(\w\+\)\"\]/.\1/gc<CR>
 " endfunction
 
 
-" Solarized toggle light/dark
-function! ToggleBGPersist()
-    :ToggleBG
-    let comment = 'Automatically added by ToggleBGPersist'
-    let setvar = 'let g:last_toggled_background = "' . &background . '"'
-    if len(get(g:, 'project_local_vimrc', ''))
-        let ed_cmd = 'ed -s ' . shellescape(g:project_local_vimrc)
-        let cmd = ed_cmd . " <<< $'1,$s/let g:last_toggled_background[ ]*=[ ]*.*/" . setvar . "/\\nw'" .
-                    \ ' || ' . ed_cmd . " <<< $'$a\\n\" " . comment . "\\n" . setvar . "\\n.\\nw'"
-        " call system('cat > cmd.sh', cmd)
-        call system(cmd)
-    endif
-endfunction
-
-nnoremap <leader>t :call ToggleBGPersist()<CR>
+nnoremap <leader>t :ToggleBG<CR>
 " Ensure the autoload file gets loaded
 call togglebg#map("<F5>")
 
