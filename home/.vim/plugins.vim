@@ -36,8 +36,7 @@ endif
 Plug 'skwp/vim-colors-solarized'
 Plug 'vim-scripts/Sunset'
 
-Plug 'kien/ctrlp.vim'
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+" Plug 'kien/ctrlp.vim'
 Plug 'michaeljsmith/vim-indent-object'
 
 " ========================================

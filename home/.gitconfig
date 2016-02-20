@@ -1,5 +1,6 @@
 [alias]
     up = !git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
+    prune-branches = !ls "$(git rev-parse --show-toplevel)/.git/refs/heads/" | grep -v master | xargs git branch -d
 [push]
     default = simple
 [user]

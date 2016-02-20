@@ -1,3 +1,9 @@
+function! Input(prompt)
+    call inputsave()
+    let search = input(a:prompt)
+    call inputrestore()
+    return search
+endfunction
 
 " Window navigation
 function! Wincmd(cmd)
@@ -78,23 +84,6 @@ vnoremap * :<C-u>exe '/'.GetVisualSelection()<CR>
 vnoremap <leader>* :<C-u>exe 'Ag -Q '.shellescape(GetVisualSelection())<CR>
 nnoremap <leader>* *N:exe "Ag '\\b".expand('<cword>')."\\b'"<CR>
 
-" Syntastic
-" function! SyntasticFullCheck()
-"     let checkers_full_name =  'syntastic_' . &ft . '_checkers_full'
-"     let old_checkers = -1
-"     if exists('g:' . checkers_full_name)
-"         let old_checkers = get(b:, 'syntastic_checkers')
-"         let b:syntastic_checkers = get(g:, checkers_full_name)
-"     endif
-"     SyntasticCheck
-"     if old_checkers && old_checkers != -1
-"         let b:syntastic_checkers = old_checkers
-"     elseif old_checkers != -1
-"         unlet b:syntastic_checkers
-"     endif
-" endfunction
-" nnoremap <leader>e :call SyntasticFullCheck()<CR>
-
 " Clear search
 nnoremap <leader>/ :let @/ = ""<CR>
 
@@ -131,138 +120,26 @@ nnoremap <leader>s :set opfunc=SortLines<CR>g@
 vnoremap <leader>s :<C-U>call SortLines(visualmode(), 1)<CR>
 
 
-" TODO refactor so this doesn't use visual mode?
-function! <SID>IndTxtObj(inner)
-    let curline = line('.')
-    let curcol = col('.')
-    call <SID>GoToIndEnd(a:inner)
-    normal! $V
-    call cursor(curline, curcol)
-    call <SID>GoToIndStart(a:inner)
-    normal! 0
-endfunction
-
-" " Vimux
-" nnoremap <leader>vl :VimuxRunLastCommand<CR>
-" nnoremap <leader>vc :VimuxRunCommand 'clear'<CR>
-" nnoremap <Leader>vp :VimuxPromptCommand<CR>
-" nnoremap <Leader>vi :VimuxInspectRunner<CR>
-" nnoremap <Leader>vq :VimuxCloseRunner<CR>
-" nnoremap <Leader>vx :VimuxInterruptRunner<CR>
-" nnoremap <Leader>vz :call VimuxZoomRunner()<CR>
-" nnoremap <leader>pl :call PylintFile()<CR>
-"
-" function! PylintFile(...)
-"     if a:0 && len(a:0)
-"         let file = a:file
-"     else
-"         let file = '%'
-"     endif
-"     :VimuxRunCommand 'pylint '.expand(file)
-" endfunction
-
-" Sql tester
-nnoremap <leader>sq :call RunSqlQuery()<CR>
-
-function! RunSqlQuery()
-python << EOF
-
-import os
-import tempfile
-import time
-import vim
-
-def run_query(sqlFile):
-    cmd = '{} < {}'.format(vim.eval('get(b:, "sqlCommand", g:sqlCommand)'),
-                           sqlFile)
-    if int(vim.eval('get(b:, "sqlUseDispatch", '
-                    'get(g:, "sqlUseDispatch", exists(":Dispatch")))')):
-        vim.command('Dispatch {}'.format(cmd))
-    else:
-        makeprg = vim.eval('&makeprg')
-        vim.command('let &l:makeprg="{}"'.format(cmd))
-        vim.command('make | copen')
-        vim.command('let &l:makeprg="{}"'.format(makeprg))
-
-fname = vim.eval('expand("%")')
-if not os.path.exists(fname):
-    with tempfile.NamedTemporaryFile() as f:
-        f.write('\n'.join(vim.current.buffer))
-        f.flush()
-        run_query(f.name)
-        # This just ensures that cat can read the file before it gets deleted
-        time.sleep(0.1)
-else:
-    run_query(fname)
-
-EOF
-endfunction
-
-let s:shell_cmd_id = 0
-function! ShellCommand(cmd, ...)
-    let quiet = a:0 && a:1
-    if has('nvim')
-        let jobname = 'ShellCommand'.s:shell_cmd_id
-        let s:shell_cmd_id += 1
-        let job = jobstart(jobname, &shell, ['-c', a:cmd])
-        if !quiet
-            function! JobHandler()
-                if index(['stdout', 'stderr'], v:job_data[1]) >= 0
-                    echom v:job_data[2]
-                else
-                    exe 'au! '.jobname
-                endif
-            endfunction
-            exe 'augroup '.jobname.' | augroup END'
-            exe 'au '.jobname.' JobActivity '.jobname.' call JobHandler()'
-        endif
-    elseif exists(':Start')
-        if quiet
-            let prefix = ':Start!'
-        else
-            let prefix = ':Start'
-        endif
-        exe prefix.' '.a:cmd
-    else
-        if quiet
-            call system(a:cmd)
-        else
-            exe '!'.a:cmd
-        endif
-    endif
-endfunction
-
 " Gen tags
 if !exists('g:neomake_ctags_maker')
     let g:neomake_ctags_maker = {'args': ['-R']}
 endif
 nnoremap <leader>gt :Neomake! ctags<CR>
 
+
 " Refactoring helpers
 nnoremap <leader>" :%s/"\(.\{-}\)"/\="'".substitute(submatch(1), "'", '"', 'g')."'"/gc<CR>
 nnoremap <leader>. :%s/\['\(\w\+\)\'\]/.\1/gc<CR>:%s/\["\(\w\+\)\"\]/.\1/gc<CR>
 
 
-" nnoremap <leader>pass :call VimuxPromptPassword()<CR>
-" function! VimuxPromptPassword()
-"     call inputsave()
-"     call VimuxSendText(inputsecret("Enter password: "))
-"     call inputrestore()
-"     call VimuxSendKeys("Enter")
-" endfunction
-
-
-nnoremap <leader>t :ToggleBG<CR>
 " Ensure the autoload file gets loaded
-call togglebg#map("<F5>")
+call togglebg#map('<F5>')
 
 
 " ======================= HTML/XML Tag operations =============================
 " Change tagname
 function! ChangeTagName()
-    call inputsave()
-    let tag = input("New tagname: ")
-    call inputrestore()
+    let tag = Input("New tagname: ")
     exe 'normal! vathciw' . tag
     exe 'normal! gvolciw' . tag . ''
 endfunction
@@ -272,9 +149,7 @@ nnoremap <leader>ct :call ChangeTagName()<CR>
 nnoremap <leader>rt ditvatp
 
 function! WrapTag()
-    call inputsave()
-    let tag = input("Tagname: ")
-    call inputrestore()
+    let tag = Input("Tagname: ")
     let break = tag =~ ' $'
     if break
         let tag = substitute(tag, '\s\+$', '', '')
@@ -387,43 +262,11 @@ endfunction
 nnoremap <leader>C :set opfunc=Calculate<CR>g@
 vnoremap <leader>C :<C-U>call Calculate(visualmode(), 1)<CR>
 
-" This command intentionally ended with a space. Makes it easy to set the
-" scale for a given file. Wrap in exe so automatic trailing whitespace removal
-" won't mess this up.
 exe 'nnoremap <leader>sc :let b:calculate_scale = '
 
 
-" Text fill / align helpers
-function! AlignRight(width)
-    let yankSave = @"
-    let searchSave = @/
-    let oldtextwidth = &textwidth
-    if a:width
-        let &textwidth = a:width
-    endif
-    normal! d?\(\S\s\)\@<=mrV:right0d^`rPl
-    let &textwidth = oldtextwidth
-    let @" = yankSave
-    let @/ = searchSave
-endfunction
-nnoremap <leader>R :<C-U>call AlignRight(v:count)<CR>
+exe 'nnoremap <leader>f :Ag '
+exe 'nnoremap <leader>F :LAg '
 
 
-function! AgPrompt(withArgs)
-    call inputsave()
-    if a:withArgs
-        let search = input("Ag ")
-    else
-        let search = input("Search for: ")
-    endif
-    call inputrestore()
-
-    let search = substitute(search, '|', '\\\\|', 'g')
-    if a:withArgs
-        exe 'Ag '.search
-    else
-        exe 'Ag '.shellescape(search).' '.join(a:000, ' ')
-    endif
-endfunction
-nnoremap <leader>f :call AgPrompt(0)<CR>
-nnoremap <leader>F :call AgPrompt(1)<CR>
+exe 'nnoremap <C-p> :find '

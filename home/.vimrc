@@ -21,6 +21,7 @@ set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set ruler
+set path=.,**
 set nrformats=octal,hex,alpha
 if !has('nvim')
     set cryptmethod=blowfish
@@ -33,12 +34,16 @@ set hlsearch
 set incsearch
 
 " I don't need no ag.vim!!
+function! s:EscapeSearchString(str)
+    return substitute(a:str, '|', '\\|', 'g')
+endfunction
+
 set grepprg=ag\ --nogroup\ --nocolor\ --column
 set grepformat=%f:%l:%c:%m,%f:%l:%m
-command! -nargs=+ -complete=file_in_path -bar Ag silent grep! <args> | redraw! | cwindow
-command! -nargs=+ -complete=file_in_path -bar Lag silent lgrep! <args> | redraw! | lwindow
-command! -nargs=+ -complete=file_in_path -bar AG Ag <args>
-command! -nargs=+ -complete=file_in_path -bar LAG Lag <args>
+command! -nargs=+ -complete=file_in_path Ag exe 'silent grep! '.s:EscapeSearchString(<q-args>) | redraw! | cwindow
+command! -nargs=+ -complete=file_in_path Lag exe 'silent lgrep! '.s:EscapeSearchString(<q-args>) | redraw! | lwindow
+command! -nargs=+ -complete=file_in_path AG Ag <args>
+command! -nargs=+ -complete=file_in_path LAG Lag <args>
 
 " " Make gj and gk default
 " nnoremap j gj
